@@ -1,0 +1,341 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<addons>
+<addon id="plugin.program.reddit_navigator" name="Reddit Navigator" version="1.0.8" provider-name="Twilight0">
+    <requires>
+        <import addon="xbmc.addon" version="16.1.000"/>
+        <import addon="script.module.tulip" version="2.8.2"/>
+        <import addon="script.module.pyxbmct" version="1.2.0"/>
+        <import addon="script.module.resolveurl" version="5.1.20"/>
+        <import addon="plugin.video.youtube" version="6.8.8"/>
+    </requires>
+    <extension point="xbmc.python.pluginsource" library="main.py">
+        <provides>video audio image executable</provides>
+    </extension>
+    <extension point="xbmc.addon.metadata">
+        <reuselanguageinvoker>true</reuselanguageinvoker>
+        <platform>all</platform>
+        <summary lang="en_GB">Reddit Navigator addon</summary>
+        <summary lang="el_GR">Πρόσθετο Reddit Navigator</summary>
+        <description lang="en_GB">Reddit Navigator is an addon able to browse Reddit and play various forms of media and show text comments</description>
+        <description lang="el_GR">Το πρόσθετο Reddit Navigator είναι μια μικροεφαρμογή πλοήγησης του Reddit που επιτρέπει την αναπαραγωγή διαφόρων ειδών πολυμέσων και προβολή σχολίων και νημάτων</description>
+        <disclaimer lang="en_GB">Kodi is a registered trademark of the XBMC Foundation.</disclaimer>
+        <language>en</language>
+        <license>GNU GPL, version 2</license>
+        <source>https://github.com/Twilight0/plugin.program.reddit_navigator</source>
+        <size>1711463</size>
+        <news>1.0.X ~ 05-01-2020 - 19-01-2021
+- Initial Version, forked from Reddit Browser
+- Replaced urlresolver with resolveurl
+- Changed some default settings
+- Several bug fixes
+- Changed artwork
+- Changed user agent string
+- Changed app token
+- Restored a window call function which didn't work on Leia
+- Removed "depth" variable because it was supposed to be used on flat comments tree
+- Fixed saved items menu
+- Fixed user icon for my account menu
+- Fixed some misbehaviour on search menus
+- Fixed reddit videos playback
+- Removed capability to install plexus
+- Simplified actions on advanced authorization option
+- Added a cancellation button and exception handling on wrong username/password
+- Optionally notify user on token refresh, now defaults to off
+- Optionally open the first time prompt (read me)
+- Removed the authorization options except the login with user/pass
+- Various other minor tweaks</news>
+        <assets>
+            <icon>icon.png</icon>
+            <fanart>fanart.jpg</fanart>
+        </assets>
+    </extension>
+</addon>
+
+<addon id="plugin.video.KodiTVR-Playlist" name="[COLOR blue][B]KodiTVR-Playlist[/COLOR][/B]" version="1.0.0" provider-name="KodiTVR">
+    <requires>
+    </requires>
+    <extension point="xbmc.python.pluginsource"
+               library="default.py">
+        <provides>video</provides>
+    </extension>
+    <extension point="xbmc.addon.metadata">
+        <platform>all</platform>
+        <summary>KodiTVR-Playlist</summary>
+        <description>Add-on KodiTVR-Playlist para todas as plataformas.</description>
+    </extension>
+</addon>
+
+<addon id="plugin.video.KodiTVR-PRO-m3u" name="[COLOR green]KodiTVR[/COLOR] [COLOR yellow]PRO[/COLOR] [COLOR red]M3U[/COLOR]" version="0.0.7" provider-name="[B]Kodi[/B]TVR">
+    <requires>
+    </requires>
+    <extension point="xbmc.python.pluginsource" library="app.py">
+        <provides>video</provides>
+    </extension>
+    <extension point="xbmc.addon.metadata">
+        <platform>all</platform>
+        <summary>KodiTVR PRO M3U</summary>
+        <description>[COLOR green]KodiTVR[/COLOR] [COLOR yellow]Pro[/COLOR] [COLOR red]M3U[/COLOR] - KodiTVR PRO M3U</description>
+        <disclaimer lang="pt">Todos os links encontrados neste add-on são fruto de uma pesquisa na net, todos eles encontram-se em qualquer site de iptv, nós simplesmente utilizamos esses links e os concentramos num só local, assim sendo declinamos qualquer responsabilidade por eles emitidos ou conteudo partilhado.[CR]Para mais informações podem-nos encontrar na pagina do facebook KodiTVR.</disclaimer>
+        <disclaimer lang="en">All links found in this add-on are the result of a search on the net, all of them are in any iptv site, we simply use these links and concentrate them in one place, therefore we disclaim any responsibility for them issued or shared content.[CR]For more information you can find us on facebook KodiTVR page.</disclaimer>
+        <disclaimer lang="es">Todos los enlaces que se encuentran en este add-on son el resultado de una búsqueda en la red, todos ellos se encuentran en cualquier sitio IPTV, simplemente usamos estos enlaces y concentrarlos en un solo lugar, por lo tanto, no asumimos ninguna responsabilidad por ellos emitidos o contenido compartido.[CR]Para más información nos puede encontrar en la página de facebook, KodiTVR.</disclaimer>
+    </extension>
+</addon>
+
+<addon id="plugin.video.KodiTVR_Live_Sport" name="[COLORred]KodiTVR[/COLOR][COLORwhite]_Live_[/COLOR][COLORblue]Sport[/COLOR]" version="0.1.6" provider-name="KodiTVR">
+  <requires>
+    <!--import addon="xbmc.python" version="2.1.0"/-->
+    <import addon="script.module.dateutil" />
+    <import addon="script.module.six" />
+  </requires>
+  <extension point="xbmc.python.pluginsource" library="default.py">
+    <provides>video</provides>
+  </extension>
+  <extension point="xbmc.addon.metadata">
+    <summary lang="en">[COLORblue]KodiTVR_Live_Sport HD by KodiTVR[/COLOR]</summary>
+    <description lang="en">KodiTVR_Live_Sport Streams from Internet</description>
+    <disclaimer lang="en">[COLORyellow]All the streams on this add-on [COLORred]KodiTVR[/COLOR][COLORwhite]_Live_[/COLOR][COLORblue]Sport[/COLOR] are hosted on the third party site and uploaded by other people. We are not responsible for any content that hosted on on the third-party sites. If you have any legal issues please contact appropriate video owners hosters.[/COLOR]</disclaimer>
+	  <language>EN</language>
+    <license>GNU GPL, version 2</license>
+    <twitter>https://twitter.com/KodiTVR</twitter>
+    <news>-compatible with both Kodi version</news>
+    <assets>
+      <icon>icon.png</icon>
+      <fanart>fanart.jpg</fanart>
+    </assets>
+  </extension>
+</addon>
+
+<addon id="plugin.video.nbcsnliveextra" name="NBC Sports Live Extra" version="2020.11.6+matrix.1" provider-name="eracknaphobia">
+  <requires>
+    <import addon="xbmc.python" version="3.0.0"/>
+    <import addon="script.module.adobepass" />
+    <import addon="script.module.requests" />
+    <import addon="script.module.kodi-six" />
+  </requires>
+  <extension point="xbmc.python.pluginsource" library="nbcsn.py">
+        <provides>video</provides>
+  </extension>
+
+  <extension point="xbmc.addon.metadata">
+    <platform>all</platform>
+    <summary lang="en_GB">Watch NBCSN Live Extra</summary>
+    <description lang="en_GB">NBC Sports Live Extra is a service that allows you to watch NBC Sports coverage of live events from NBC and NBCSports Network</description>
+    <news>
+        - Updates for python 3 compatibility
+    </news>
+    <language>en</language>
+    <platform>all</platform>
+    <license>GPL-2.0-or-later</license>
+    <forum>http://forum.kodi.tv/showthread.php?tid=207159</forum>
+    <assets>
+        <icon>icon.png</icon>
+        <fanart>fanart.jpg</fanart>
+    </assets>
+  </extension>
+</addon>
+
+<addon id="plugin.video.redbull.tv" name="Red Bull TV" version="3.2.2+matrix.1" provider-name="piejanssens">
+  <requires>
+    <import addon="script.module.dateutil" version="2.8.0"/>
+    <import addon="script.module.routing" version="0.2.0"/>
+    <import addon="xbmc.python" version="3.0.0"/>
+  </requires>
+  <extension point="xbmc.python.pluginsource" library="resources/lib/addon_entry.py">
+    <provides>video</provides>
+  </extension>
+  <extension point="xbmc.addon.metadata">
+    <summary lang="en_GB">Watch Red Bull TV, live and on demand.</summary>
+    <description lang="en_GB">Red Bull TV gives you front-row access to live events, the best inaction sports, new music and entertainment, and thrilling videos from world adventurers.</description>
+    <disclaimer lang="en_GB">This add-on is not endorsed by Red Bull GmbH and is provided 'as is' without any warranty of any kind.</disclaimer>
+    <summary lang="nl_NL">Bekijk Red Bull TV, live en op aanvraag.</summary>
+    <description lang="nl_NL">Red Bull TV geeft je toegang vanop de eerste rij voor live evenementen, de beste actie sporten, muziek en entertainment, en spannende videos van avonturiers.</description>
+    <disclaimer lang="nl_NL">Deze add-on wordt niet herkend door Red Bull GmbH en wordt zonder enige garantie van welke aard dan ook aangeboden.</disclaimer>
+    <license>GPL-2.0-only</license>
+    <forum>https://forum.kodi.tv/showthread.php?tid=355054</forum>
+    <website>http://www.redbull.tv/</website>
+    <platform>all</platform>
+    <source>https://github.com/add-ons/plugin.video.redbull.tv</source>
+    <assets>
+      <icon>resources/media/icon.png</icon>
+      <fanart>resources/media/fanart.jpg</fanart>
+      <screenshot>resources/media/screenshot01.jpg</screenshot>
+      <screenshot>resources/media/screenshot02.jpg</screenshot>
+      <screenshot>resources/media/screenshot03.jpg</screenshot>
+      <screenshot>resources/media/screenshot04.jpg</screenshot>
+    </assets>
+    <news>
+v3.2.2
+- Fix EPG loading
+- Support for Python 3.9
+- Allow installing IPTV Manager from the add-on settings
+
+v3.2.1
+- Fix OK dialog
+- Catch missing EPG time markers
+
+v3.2.0
+- Support VOD playback from EPG via context menu
+- Add YouTube integration (requires YouTube add-on)
+- Improve channel listing
+- New add-on icon
+
+v3.1.0
+- IPTV Manager support
+
+v3.0.0
+- Harder, Better, Faster, Stronger
+    </news>
+    <reuselanguageinvoker>true</reuselanguageinvoker>
+  </extension>
+</addon>
+
+<addon id="plugin.video.youtube" name="YouTube" version="6.8.9+matrix.1" provider-name="anxdpanic, bromix">
+    <requires>
+        <import addon="xbmc.python" version="3.0.0"/>
+        <import addon="script.module.six" version="1.11.0"/>
+        <import addon="script.module.requests" version="2.12.4"/>
+        <import addon="script.module.inputstreamhelper" version="0.2.2" optional="true"/>
+    </requires>
+    <extension point="xbmc.python.pluginsource" library="resources/lib/default.py">
+        <provides>video</provides>
+    </extension>
+    <extension point="xbmc.service" library="resources/lib/startup.py"/>
+    <extension point="xbmc.python.module" library="resources/lib/"/>
+    <extension point="xbmc.addon.metadata">
+        <news>
+[fix] my subscriptions section using YouTube RSS |contrib: PureHemp|
+[fix] items per page settings on Kodi 19
+[chg] recommendations only available for users with custom history playlist id configured
+[chg] no longer show watch later unless custom watch later playlist is configured
+[rem] remove usage of discontinued api and dual login (no longer required)
+        </news>
+        <assets>
+            <icon>icon.png</icon>
+            <fanart>fanart.jpg</fanart>
+        </assets>
+        <summary lang="en_GB">Plugin for YouTube</summary>
+        <description lang="en_GB">YouTube is one of the biggest video-sharing websites of the world.</description>
+        <disclaimer lang="en_GB">This plugin is not endorsed by Google</disclaimer>
+        <summary lang="he_IL">תוסף עבור YouTube</summary>
+        <description lang="he_IL">YouTube הוא אחד מאתרי שיתוף הווידאו הגדולים בעולם.</description>
+        <summary lang="de_DE">Plugin für YouTube</summary>
+        <description lang="de_DE">YouTube ist eines der größten Video-Sharing-Websites der Welt.</description>
+        <summary lang="pl_PL">Wtyczka YouTube</summary>
+        <description lang="pl_PL">YouTube jest jednym z największych na świecie serwisów udostępniania wideo.</description>
+        <summary lang="hu_HU">YouTube kiegészítő</summary>
+        <description lang="hu_HU">A YouTube világ egyik legnagyobb videómegosztó weboldala.</description>
+        <summary lang="es_ES">Plugin para YouTube</summary>
+        <description lang="es_ES">YouTube es uno de los sitios web más grande del mundo para compartir vídeos.</description>
+        <disclaimer lang="es_ES">Este add-on no está respaldado por Google</disclaimer>
+        <summary lang="es_MX">Plugin para YouTube</summary>
+        <description lang="es_MX">YouTube es uno de los más grandes sitios web de intercambio de videos del mundo.</description>
+        <disclaimer lang="es_MX">Este add-on no está respaldado por Google</disclaimer>
+        <summary lang="ru_RU">Видеодополнение YouTube</summary>
+        <description lang="ru_RU">YouTube - популярнейший видеохостинговый сайт, предоставляющий пользователям услуги хранения, доставки и показа видео.</description>
+        <summary lang="fr_FR">Plugin pour YouTube</summary>
+        <description lang="fr_FR">YouTube est l'un des plus grands sites de partage vidéos du monde.</description>
+        <summary lang="zh_CN">YouTube附加元件</summary>
+        <description lang="zh_CN">「Youtube」是全世界最大的影片分享網站</description>
+        <summary lang="zh_TW">YouTube附加元件</summary>
+        <description lang="zh_TW">「Youtube」是全世界最大的影片分享網站</description>
+        <disclaimer lang="zh_TW">此附加元件未由Google支持</disclaimer>
+        <summary lang="bg_BG">Добавка за YouTube</summary>
+        <description lang="bg_BG">YouTube е един от най-големите уеб сайтове за споделяне на видео в целия свят.</description>
+        <summary lang="el_GR">Πρόσθετο YouTube</summary>
+        <description lang="el_GR">Το YouTube είναι μία από τις μεγαλύτερες ιστοσελίδες διαμοιρασμού βίντεο στον κόσμο.</description>
+        <disclaimer lang="el_GR">Η παρούσα μικροεφαρμογή δεν έχει υϊοθετηθεί από την Google</disclaimer>
+        <summary lang="nb_NO">Tillegg for YouTube</summary>
+        <description lang="nb_NO">YouTube er en av verdens største nettsider for videodeling.</description>
+        <summary lang="ko_KR">유튜브 플러그인</summary>
+        <description lang="ko_KR">유튜브는 세상에서 가장 큰 동영상 공유 사이트 중의 하나입니다.</description>
+        <summary lang="cs_CZ">Plugin pro YouTube</summary>
+        <description lang="cs_CZ">YouTube je jedna z největších webových stránek světa sdílející video.</description>
+        <disclaimer lang="cs_CZ">Tento plugin není schválen společností Google</disclaimer>
+        <summary lang="tr_TR">YouTube için eklenti</summary>
+        <description lang="tr_TR">YouTube, dünya üzerindeki en büyük video paylaşma platformlarından birisidir</description>
+        <disclaimer lang="tr_TR">Bu eklenti Google tarafından üretilmemiştir</disclaimer>
+        <platform>all</platform>
+        <license>GPL-2.0-only</license>
+        <forum>https://ytaddon.panicked.xyz/forum</forum>
+        <website>https://www.youtube.com</website>
+        <source>https://github.com/anxdpanic/plugin.video.youtube</source>
+        <reuselanguageinvoker>true</reuselanguageinvoker>
+    </extension>
+</addon>
+
+<addon id="repository.KodiTVR.MATRIX" name="[B][COLOR blue]repository [COLOR yellow]KodiTVR[/B][/COLOR]" version="0.0.1" provider-name="KodiTVR">
+	<requires>
+    <import addon="xbmc.addon" version="12.0.0"/>
+
+    </requires>
+	<extension point="xbmc.addon.repository" name="[B][COLOR yellow]repository [COLOR yellow]KodiTVR[/B][/COLOR]">
+		<info compressed="false">https://raw.github.com/KodiTVR-add-on/repository.KodiTVR.MATRIX/master/addons.xml</info>
+		<checksum>https://raw.github.com/KodiTVR-add-on/repository.KodiTVR.MATRIX/master/addons.xml.md5</checksum>
+		<datadir zip="true">https://raw.github.com/KodiTVR-add-on/repository.KodiTVR.MATRIX/master/repo/</datadir>
+	</extension>
+	<extension point="xbmc.addon.metadata">
+		<summary>KodiTVR Repo MATRIX</summary>
+		<description>Transferir e instalar add-ons KodiTVR a partir do repositório KodiTVR MATRIX, aqui encontra add-ons para o Kodi, testados pela KodiTVR! Agora o resto fica á vossa escolha...</description>
+		<disclaimer></disclaimer>
+		<platform>all</platform>
+	</extension>
+</addon>
+
+<addon id="script.module.httplib2" name="httplib2" provider-name="Joe Gregorio" version="0.10.3">
+  <requires>
+    <import addon="xbmc.python" version="2.14.0" />
+  </requires>
+  <extension library="lib" point="xbmc.python.module" />
+  <extension point="xbmc.addon.metadata">
+        <description lan="en">httplib2 module</description>
+        <summary lang="en">httplib2 module</summary>
+        <license>MIT</license>
+        <platform>all</platform>
+        <email></email>
+        <website>https://pypi.python.org/pypi/httplib2</website>
+        <forum></forum>
+        <source>https://github.com/httplib2/httplib2</source>
+        <language></language>
+   </extension>
+</addon>
+
+<addon id="script.module.metahandler"
+     name="metahandler"
+     version="3.0.3"
+     provider-name="Eldorado, jsergio">
+  <requires>
+    <import addon="xbmc.python" version="2.1.0" />
+    <import addon="script.module.simplejson" version="3.3.0"/>
+    <import addon="script.module.addon.common" version="2.0.0"/>
+    <import addon="script.module.myconnpy" version="1.1.6"/>
+  </requires>
+  <extension point="xbmc.python.module" library="lib" />
+  <extension point="xbmc.addon.metadata">
+    <summary lang="en">Downloads Artwork for TV shows, Movies and Music videos for addons and stores them in a local SQLITE database</summary>
+    <description lang="en">Queries, stores, and returns metadata for TV shows, Movies and Musicvideos. [CR]Sources:[CR]www.thetvdb.com[CR]www.themoviedb.org[CR]www.imdb.com[CR]www.omdbapi.com[CR]This product uses the TMDb API but is not endorsed or certified by TMDb.</description>
+    <disclaimer lang="en"></disclaimer>
+    <language></language>
+    <platform>all</platform>
+    <license>GNU GENERAL PUBLIC LICENSE. Version 2, June 1991</license>
+    <forum></forum>
+    <website></website>
+    <email></email>
+    <source></source>
+  </extension>
+</addon>
+
+<addon id="xbmc.python2" version="3.0.0" provider-name="Team Kodi">
+  <backwards-compatibility abi="2.1.0"/>
+  <requires>
+    <import addon="xbmc.core" version="0.1.0"/>
+  </requires>
+  <extension-point id="script" schema="script.xsd"/>
+  <extension-point id="subtitles" schema="script.xsd"/>
+  <extension-point id="lyrics" schema="script.xsd"/>
+  <extension-point id="weather" schema="script.xsd"/>
+  <extension-point id="library" schema="script.xsd"/>
+  <extension-point id="screensaver" schema="script.xsd"/>
+  <extension-point id="plugin" schema="pluginsource.xsd"/>
+  <extension-point id="context.item" schema="contextitem.xsd"/>
+</addon>
+</addons>
