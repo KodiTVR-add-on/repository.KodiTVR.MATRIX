@@ -51,50 +51,6 @@
     </extension>
 </addon>
 
-<addon id="plugin.video.KodiTVR-Playlist" name="[COLOR blue][B]KodiTVR-Playlist[/COLOR][/B]" version="1.0.0+matrix.1" provider-name="KodiTVR">
-    <requires>
-    </requires>
-    <extension point="xbmc.python.pluginsource"
-               library="default.py">
-        <provides>video</provides>
-    </extension>
-    <extension point="xbmc.addon.metadata">
-        <platform>all</platform>
-        <summary>KodiTVR-Playlist</summary>
-        <description>Add-on KodiTVR-Playlist para todas as plataformas.</description>
-    </extension>
-</addon>
-
-<addon id="plugin.video.KodiTVR-PRO-m3u" name="[COLOR green]KodiTVR[/COLOR] [COLOR yellow]PRO[/COLOR] [COLOR red]M3U[/COLOR]" version="0.0.7+matrix.1" provider-name="[B]Kodi[/B]TVR">
-    <requires>
-    </requires>
-    <extension point="xbmc.python.pluginsource" library="app.py">
-        <provides>video</provides>
-    </extension>
-    <extension point="xbmc.addon.metadata">
-        <platform>all</platform>
-        <summary>KodiTVR PRO M3U</summary>
-        <description>[COLOR green]KodiTVR[/COLOR] [COLOR yellow]Pro[/COLOR] [COLOR red]M3U[/COLOR] - KodiTVR PRO M3U</description>
-        <disclaimer lang="pt">Todos os links encontrados neste add-on são fruto de uma pesquisa na net, todos eles encontram-se em qualquer site de iptv, nós simplesmente utilizamos esses links e os concentramos num só local, assim sendo declinamos qualquer responsabilidade por eles emitidos ou conteudo partilhado.[CR]Para mais informações podem-nos encontrar na pagina do facebook KodiTVR.</disclaimer>
-        <disclaimer lang="en">All links found in this add-on are the result of a search on the net, all of them are in any iptv site, we simply use these links and concentrate them in one place, therefore we disclaim any responsibility for them issued or shared content.[CR]For more information you can find us on facebook KodiTVR page.</disclaimer>
-        <disclaimer lang="es">Todos los enlaces que se encuentran en este add-on son el resultado de una búsqueda en la red, todos ellos se encuentran en cualquier sitio IPTV, simplemente usamos estos enlaces y concentrarlos en un solo lugar, por lo tanto, no asumimos ninguna responsabilidad por ellos emitidos o contenido compartido.[CR]Para más información nos puede encontrar en la página de facebook, KodiTVR.</disclaimer>
-    </extension>
-</addon>
-
-<addon id="plugin.video.KodiTVR.M3U" name="KodiTVR[COLORred] M3U[/COLOR]" version="77.1.0+matrix.1" provider-name="KodiTVR">
-    <requires>
-    </requires>
-    <extension point="xbmc.python.pluginsource"
-               library="default.py">
-        <provides>video</provides>
-    </extension>
-    <extension point="xbmc.addon.metadata">
-        <platform>all</platform>
-        <summary>KodiTVR_M3U</summary>
-        <description>[COLORred]Channels for app Kodi by KodiTVR.[/COLOR]  [COLORwhite]Canais para o aplicativo Kodi da KodiTVR.[/COLOR]  [COLORblue]KodiTVR is not responsible for the use of this add-on. KodiTVR não é responsável pelo uso deste add-on.[/COLOR] [COLORgold]KodiTVR is in no way affiliated with Kodi, Team Kodi, or the XBMC Foundation.  KodiTVR não é de forma alguma afiliado com Kodi, Team Kodi, ou a Fundação XBMC.[/COLOR]</description>
-    </extension>
-</addon>
-
 <addon id="plugin.video.KodiTVR_Live_Sport" name="[COLORred]KodiTVR[/COLOR][COLORwhite]_Live_[/COLOR][COLORblue]Sport[/COLOR]" version="0.1.7" provider-name="KodiTVR">
   <requires>
     <!--import addon="xbmc.python" version="2.1.0"/-->
@@ -541,8 +497,6 @@ v3.0.0
     <platform>windows-x86_64</platform>
   </extension>
 </addon>
-
-<addon id="repository.elementum" name="Elementum Repository" version="0.1.51" provider-name="elgatito"><requires></requires><extension point="xbmc.addon.repository" name="Elementum Repository"><info compressed="false">http://127.0.0.1:65220/repository/elgatito/plugin.video.elementum/addons.xml</info><checksum>http://127.0.0.1:65220/repository/elgatito/plugin.video.elementum/addons.xml.md5</checksum><datadir zip="true">http://127.0.0.1:65220/repository/elgatito/</datadir></extension><extension point="xbmc.addon.metadata"><platform>all</platform><summary lang="en">GitHub repository for Elementum updates</summary></extension></addon>
 
 <addon id="repository.KodiTVR.MATRIX" name="[B][COLOR blue]repository [COLOR yellow]KodiTVR[/B][/COLOR] MATRIX" version="0.0.1" provider-name="KodiTVR">
 	<requires>
