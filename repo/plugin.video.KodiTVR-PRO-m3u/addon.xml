@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<addon id="plugin.video.KodiTVR-PRO-m3u" name="[COLOR green]KodiTVR[/COLOR] [COLOR yellow]PRO[/COLOR] [COLOR red]M3U[/COLOR]" version="0.0.7" provider-name="[B]Kodi[/B]TVR">
+<addon id="plugin.video.KodiTVR-PRO-m3u" name="[COLOR green]KodiTVR[/COLOR] [COLOR yellow]PRO[/COLOR] [COLOR red]M3U[/COLOR]" version="0.0.7+matrix.1" provider-name="[B]Kodi[/B]TVR">
     <requires>
     </requires>
     <extension point="xbmc.python.pluginsource" library="app.py">
