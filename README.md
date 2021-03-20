@@ -1,4 +1,4 @@
-# <a href="repository.KodiTVR.MATRIX.zip">DOWNLOAD DO REPOSITÓRIO</a>
+# <a href="repository.KodiTVR.MATRIX.zip">https://koditvr-add-on.github.io/repository.KodiTVR.MATRIX/</a>
 
 Instruções para a adição do repositório no gestor de ficheiros:
 
