@@ -1,5 +1,66 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <addons>
+<addon id="plugin.googledrive" name="Google Drive" version="1.4.10+matrix.2" provider-name="Carlos Guzman (cguZZman)">
+	<requires>
+		<import addon="xbmc.python" version="3.0.0" />
+		<import addon="script.module.clouddrive.common" version="1.3.9+matrix.2"/>
+	</requires>
+	<extension point="xbmc.python.pluginsource" library="entrypoint.py">
+		<provides>image audio video</provides>
+	</extension>
+	<extension point="xbmc.service" library="service.py" />
+	<extension point="xbmc.addon.metadata">
+		<platform>all</platform>
+		<summary lang="en_GB">Google Drive for KODI</summary>
+		<description lang="en_GB">
+Play all your media from Google Drive including Videos, Music and Pictures (including Google Photos).
+ - Unlimited number of accounts.
+ - Team Drives support
+ - Google Photos support
+ - Search over your drive.
+ - Auto-Refreshed slideshow.
+ - Export your videos to your library (.strm files)
+ - Use Google Drive as a source
+ - This program is not affiliated with or sponsored by Google.
+		</description>
+		<summary lang="he_IL">כונן Google Drive של מיקרוסופט עבור קודי</summary>
+		<description lang="he_IL">
+הפעל את כל המדיה שלך מ- Google Drive כולל וידאו, מוסיקה ותמונות.
+  - מספר בלתי מוגבל של חשבונות.
+  - חיפוש ומציאת הכונן שלך.
+  - ריענון מצגת אוטומטית.
+  - ייצוא קטעי הווידאו לספרייה שלך (קבצי .strm)
+  - שימוש ב-Google Drive כמקור
+  - תוכנית זו אינה קשורה או ממומנת על ידי Google.
+		</description>
+		<license>GPL-3.0-or-later</license>
+		<source>https://github.com/cguZZman/plugin.googledrive</source>
+		<forum>https://github.com/cguZZman/plugin.googledrive/issues</forum>
+		<website>https://addons.kodi.tv/show/plugin.googledrive</website>
+		<assets>
+			<icon>icon.png</icon>
+			<fanart>fanart.jpg</fanart>
+		</assets>
+		<news>
+v1.4.10 released Nov 12, 2020:
+- Export improvements
+		</news>
+		<disclaimer lang="en_GB">
+This cloud drive addon uses a third-party authentication mechanism commonly known as OAuth 2.0.
+If you want to know more about OAuth 2.0 you can visit the following pages:
+- https://oauth.net/2/
+- https://developers.google.com/identity/protocols/OAuth2
+- https://docs.microsoft.com/en-us/onedrive/developer/rest-api/getting-started/msa-oauth
+
+Kodi and myself take no responsibility or liability.
+
+The authentication server URL is specified in Settings / Advanced / Sign-in Server. The Sign-in Server implements the OAuth 2.0 protocol.
+The complete source code of the Sign-in Server can be download here: https://github.com/cguZZman/drive-login
+You can clone the project and host it in your own server.
+		</disclaimer>
+	</extension>
+</addon>
+
 <addon id="plugin.program.reddit_navigator" name="Reddit Navigator" version="1.0.8" provider-name="Twilight0">
     <requires>
         <import addon="xbmc.addon" version="16.1.000"/>
@@ -238,7 +299,7 @@ v3.0.0
   </extension>
 </addon>
 
-<addon id="plugin.video.rtpplay" name="RTP Play" version="5.0.10+matrix.1" provider-name="enen92, guipenedo">
+<addon id="plugin.video.rtpplay" name="RTP Play" version="5.0.14+matrix.1" provider-name="enen92, guipenedo">
     <requires>
         <import addon="xbmc.python" version="3.0.0"/>
         <import addon="script.module.routing" version="0.2.0"/>
@@ -262,7 +323,8 @@ v3.0.0
         <email>enen92@kodi.tv</email>
         <source>https://github.com/enen92/plugin.video.rtpplay</source>
         <news>
-            - Move xbmc.translatepath to xbmcvfs.translatepath
+            Version 5.0.14
+                - Minor version fix (py2)
         </news>
         <disclaimer lang="en_GB">The plugin is unofficial and not endorsed by RTP. Expect it to break. </disclaimer>
         <disclaimer lang="pt_PT">Este plugin não é oficial nem desenvolvido pela RTP. </disclaimer>
@@ -273,7 +335,7 @@ v3.0.0
     </extension>
 </addon>
 
-<addon id="plugin.video.youtube" name="YouTube" version="6.8.9+matrix.1" provider-name="anxdpanic, bromix">
+<addon id="plugin.video.youtube" name="YouTube" version="6.8.10+matrix.1" provider-name="anxdpanic, bromix">
     <requires>
         <import addon="xbmc.python" version="3.0.0"/>
         <import addon="script.module.six" version="1.11.0"/>
@@ -287,11 +349,8 @@ v3.0.0
     <extension point="xbmc.python.module" library="resources/lib/"/>
     <extension point="xbmc.addon.metadata">
         <news>
-[fix] my subscriptions section using YouTube RSS |contrib: PureHemp|
-[fix] items per page settings on Kodi 19
-[chg] recommendations only available for users with custom history playlist id configured
-[chg] no longer show watch later unless custom watch later playlist is configured
-[rem] remove usage of discontinued api and dual login (no longer required)
+[fix] fix javascript player retrieval and playback of some videos for affected users |contrib: thomazz-nl|
+    - Invalid URL 'http://': No host supplied
         </news>
         <assets>
             <icon>icon.png</icon>
