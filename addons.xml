@@ -1537,6 +1537,28 @@ v0.5.0 (2020-06-25)
 	</extension>
 </addon>
 
+<addon id="script.module.pymysql"
+       name="pymysql"
+       version="0.9.3+matrix.3"
+       provider-name="PyMySQL">
+  <requires>
+    <import addon="xbmc.python" version="3.0.0"/>
+  </requires>
+  <extension point="xbmc.python.module"
+             library="lib" />
+  <extension point="xbmc.addon.metadata">
+    <summary lang="en_GB">Simple MySql Connector for Python</summary>
+    <description lang="en_GB">Simple MySql Connector for Python. Package by smitchell6879</description>
+    <platform>all</platform>
+    <license>MIT</license>
+    <website>https://pymysql.readthedocs.io/en/latest/</website>
+    <source>https://github.com/PyMySQL/PyMySQL</source>
+    <assets>
+      <icon>icon.png</icon>
+    </assets>
+  </extension>
+</addon>
+
 <addon id="script.module.pyqrcode" version="1.2.1+matrix.2" name="pyQRcode" provider-name="Lunatixz">
     <requires>
         <import addon="xbmc.python" version="3.0.0" />
@@ -1576,6 +1598,98 @@ v0.5.0 (2020-06-25)
     </extension>
 </addon>
 
+<addon id="script.module.pysocks" name="PySocks" version="1.7.0+matrix.1" provider-name="anorov">
+  <requires>
+    <import addon="xbmc.python" version="3.0.0"/>
+  </requires>
+  <extension point="xbmc.python.module" library="lib"/>
+  <extension point="xbmc.addon.metadata">
+    <summary lang="en_GB">A SOCKS proxy client and wrapper for Python</summary>
+    <description lang="en_GB">PySocks lets you send traffic through SOCKS and HTTP proxy servers. It is a modern fork of SocksiPy with bug fixes and extra features.</description>
+    <platform>all</platform>
+    <language></language>
+    <license>BSD</license>
+    <forum></forum>
+    <website>https://github.com/Anorov/PySocks</website>
+    <source>https://github.com/Anorov/PySocks</source>
+    <assets>
+      <icon>icon.png</icon>
+    </assets>
+  </extension>
+</addon>
+
+<addon id="script.module.python.twitch" name="python-twitch for Kodi" version="2.0.16+matrix.1" provider-name="anxdpanic, A Talented Community">
+    <requires>
+        <import addon="xbmc.python" version="3.0.0"/>
+        <import addon="script.module.six" version="1.11.0"/>
+        <import addon="script.module.requests" version="2.12.4"/>
+    </requires>
+    <extension point="xbmc.python.module" library="resources/lib"/>
+    <extension point="xbmc.addon.metadata">
+        <platform>all</platform>
+        <news>
+[fix] playback, change access token to use gql endpoints
+[chg] change followed, following, and unfollowing games to use gql endpoints
+        </news>
+        <assets>
+            <icon>icon.png</icon>
+        </assets>
+        <platform>all</platform>
+        <summary lang="en_GB">Module for interaction with the Twitch.tv API</summary>
+        <description lang="en_GB">python-twitch for Kodi is module for interaction with the Twitch.tv API based on python-twitch by ingwinlu.</description>
+        <license>GPL-3.0-only</license>
+        <source>https://github.com/anxdpanic/script.module.python.twitch</source>
+        <forum>https://twitchaddon.panicked.xyz/forum</forum>
+        <reuselanguageinvoker>true</reuselanguageinvoker>
+    </extension>
+</addon>
+
+<addon id="script.module.pytz" name="pytz" version="2019.3.0+matrix.2" provider-name="Stuart Bishop, Paul Backhouse">
+	<requires>
+		<import addon="xbmc.python" version="3.0.0"/>
+	</requires>
+	<extension point="xbmc.python.module" library="lib"/>
+	<extension point="xbmc.addon.metadata">
+	    <summary lang="en_GB">World Timezone Definitions for Python.</summary>
+	    <description lang="en_GB">pytz brings the Olson tz database into Python. This library allows accurate and cross platform timezone calculations using Python 2.4 or higher. It also solves the issue of ambiguous times at the end of daylight saving time, which you can read more about in the Python Library Reference (datetime.tzinfo).</description>
+	    <platform>all</platform>
+	    <license>MIT</license>
+	    <website>https://pythonhosted.org/pytz/</website>
+	    <source>https://github.com/stub42/pytz</source>
+	    <assets>
+            <icon>icon.png</icon>
+	    </assets>
+	</extension>
+</addon>
+
+<addon id="script.module.pyxbmct"
+   name="PyXBMCt"
+   version="1.3.1+matrix.1"
+   provider-name="Roman V.M.">
+  <requires>
+    <import addon="xbmc.python" version="3.0.0"/>
+    <import addon="script.module.six" />
+    <import addon="script.module.kodi-six" />
+  </requires>
+  <extension point="xbmc.python.module" library="lib" />
+  <extension point="xbmc.addon.metadata">
+    <platform>all</platform>
+    <summary lang="en_GB">PyXBMCt UI framework</summary>
+    <description lang="en_GB">PyXBMCt is a mini-framework for simple XBMC addon UI buliding. It is similar to PyQt and provides parent windows, a number of UI controls (widgets) and a grid layout manager to place controls.</description>
+    <license>GPL-3.0-only</license>
+    <forum>https://forum.kodi.tv/showthread.php?tid=174859</forum>
+    <website>http://romanvm.github.io/script.module.pyxbmct/</website>
+    <email>roman1972@gmail.com</email>
+    <source>https://github.com/romanvm/script.module.pyxbmct</source>
+    <news>1.3.1:
+- Fix incompatibility with newer Python 3 Kodi builds
+- Replace future library with six for Python 3 compatibility</news>
+    <assets>
+      <icon>icon.png</icon>
+    </assets>
+  </extension>
+</addon>
+
 <addon id="script.module.qrcode"
        name="qrcode"
        version="6.1.0+matrix.3"
@@ -1598,24 +1712,203 @@ v0.5.0 (2020-06-25)
   </extension>
 </addon>
 
-<addon id="script.module.six"
-       name="six"
-       version="1.14.0+matrix.2"
-       provider-name="gutworth">
+<addon id="script.module.requests"
+       name="requests"
+       version="2.22.0+matrix.1"
+       provider-name="kennethreitz">
   <requires>
-    <import addon="xbmc.python"	version="3.0.0"/>
+    <import addon="xbmc.python" version="3.0.0"/>
+    <import addon="script.module.certifi" version="2019.11.28+matrix.1"/>
+    <import addon="script.module.chardet" version="3.0.4+matrix.1"/>
+    <import addon="script.module.idna" version="2.8.1+matrix.1"/>
+    <import addon="script.module.urllib3" version="1.25.8+matrix.1"/>
   </requires>
   <extension point="xbmc.python.module"
              library="lib" />
+  <extension point="xbmc.addon.metadata">
+    <summary lang="en_GB">Python HTTP for Humans</summary>
+    <description lang="en_GB">Packed for KODI from https://pypi.org/project/requests/</description>
+    <platform>all</platform>
+    <language></language>
+    <license>Apache2</license>
+    <forum></forum>
+    <website>http://python-requests.org</website>
+    <source>https://github.com/Freso/script.module.requests</source>
+    <email>freso.dk AT gmail.com</email>
+    <assets>
+      <icon>resources/icon.png</icon>
+    </assets>
+  </extension>
+</addon>
+
+<addon id="script.module.requests-cache"
+       name="requests-cache"
+       version="0.5.2+matrix.2"
+       provider-name="Roman Haritonov">
+  <requires>
+    <import addon="xbmc.python" version="3.0.0"/>
+    <import addon="script.module.requests" version="2.22.0+matrix.1"/>
+  </requires>
+  <extension point="xbmc.python.module"
+             library="lib" />
+  <extension point="xbmc.addon.metadata">
+    <summary lang="en_GB">Persistent cache for requests library</summary>
+    <description lang="en_GB">Packed for KODI: requests-cache</description>
+    <platform>all</platform>
+    <license>BSD</license>
+    <website>https://pypi.org/project/requests-cache/</website>
+    <source>https://github.com/reclosedev/requests-cache</source>
+    <assets>
+      <icon>icon.png</icon>
+    </assets>
+  </extension>
+</addon>
+
+<addon id="script.module.requests_oauthlib" name="requests_oauthlib" version="1.3.0+matrix.2" provider-name="Ib Lundgren">
+	<requires>
+		<import addon="xbmc.python" version="3.0.0"/>
+		<import addon="script.module.oauthlib" version="3.1.0+matrix.1"/>
+		<import addon="script.module.requests" version="2.22.0+matrix.1"/>
+	</requires>
+	<extension point="xbmc.python.module" library="lib" />
+	<extension point="xbmc.addon.metadata">
+		<platform>all</platform>
+		<language></language>
+		<summary lang="en_GB">This project provides first-class OAuth library support for Requests.</summary>
+		<description lang="en_GB">This project provides first-class OAuth library support for Requests.</description>
+		<disclaimer lang="en_GB">This project provides first-class OAuth library support for Requests.</disclaimer>
+		<license>ISC</license>
+		<website>https://pypi.org/project/requests-oauthlib</website>
+		<source>https://github.com/requests/requests-oauthlib</source>
+		<assets>
+			<icon>icon.png</icon>
+		</assets>
+	</extension>
+</addon>
+
+<addon id="script.module.routing" name="Plugin routing" version="0.2.3+matrix.1" provider-name="takoi,Team Kodi">
+    <requires>
+        <import addon="xbmc.python" version="3.0.0"/>
+    </requires>
+    <extension point="xbmc.python.module" library="lib"/>
+    <extension point="xbmc.addon.metadata">
+        <summary lang="en_GB">Routing module for plugins</summary>
+        <description lang="en_GB">Library for building and parsing plugin URLs.</description>
+        <license>GPL-3.0</license>
+        <platform>all</platform>
+        <language>en_GB</language>
+        <source>https://github.com/tamland/kodi-plugin-routing</source>
+        <assets>
+            <icon>resources/icon.png</icon>
+        </assets>
+    </extension>
+</addon>
+
+<addon id="script.module.simplejson"
+       name="simplejson"
+       version="3.17.0+matrix.2"
+       provider-name="Bob Ippolito">
+  <requires>
+    <import addon="xbmc.python" version="3.0.0"/>
+  </requires>
+  <extension point="xbmc.python.module"
+             library="lib" />
+  <extension point="xbmc.addon.metadata">
+    <platform>all</platform>
+    <language></language>
+    <summary lang="en_GB">Simple, fast, extensible JSON encoder/decoder for Python</summary>
+    <description lang="en_GB">Simple, fast, extensible JSON encoder/decoder for Python</description>
+    <disclaimer lang="en_GB">Code taken from https://pypi.org/project/simplejson/</disclaimer>
+    <license>MIT License, Academic Free License v. 2.1</license>
+    <website>https://pypi.org/project/simplejson/</website>
+    <source>https://github.com/simplejson/simplejson</source>
+    <assets>
+      <icon>icon.png</icon>
+    </assets>
+  </extension>
+</addon>
+
+<addon id="script.module.six"
+       name="six"
+       version="1.15.0+matrix.1"
+       provider-name="gutworth">
+  <requires>
+    <import addon="xbmc.python"
+    		version="3.0.0"/>
+  </requires>
+  <extension point="xbmc.python.module" library="lib" />
   <extension point="xbmc.addon.metadata">
     <summary lang="en_GB">Python 2 and 3 compatibility utilities.</summary>
     <description lang="en_GB">Six is a Python 2 and 3 compatibility library. It provides utility functions for smoothing over the differences between the Python versions with the goal of writing Python code that is compatible on both Python versions. See the documentation for more information on what is provided.</description>
     <platform>all</platform>
     <license>MIT</license>
-    <source>https://pypi.org/project/six/</source>
+    <source>https://github.com/benjaminp/six</source>
     <website>https://pypi.org/project/six/</website>
     <assets>
       <icon>icon.png</icon>
+    </assets>
+  </extension>
+</addon>
+
+<addon id="script.module.tzlocal"
+       name="tzlocal"
+       version="2.0.0+matrix.1"
+       provider-name="Lennart Regebro">
+  <requires>
+    <import addon="xbmc.python" version="3.0.0"/>
+    <import addon="script.module.pytz" version="2019.3.0+matrix.1"/>
+  </requires>
+  <extension point="xbmc.python.module"
+             library="lib"/>
+  <extension point="xbmc.addon.metadata">
+    <summary lang="en_GB">Python Module to find out the current time zone</summary>
+    <description lang="en_GB">Packed for Kodi from https://github.com/regebro/tzlocal, forked from https://github.com/jdollarKodi/script.module.tzlocal</description>
+    <platform>all</platform>
+    <language></language>
+    <license>MIT</license>
+    <forum></forum>
+    <website>https://github.com/regebro/tzlocal</website>
+    <source>https://github.com/regebro/tzlocal</source>
+    <assets>
+      <icon>resources/icon.png</icon>
+    </assets>
+  </extension>
+</addon>
+
+<addon id="script.module.unidecode" name="unidecode" version="1.1.1+matrix.1" provider-name="Tomaz Solc (Tomaz.solc@tablix.org)">
+	<requires>
+		<import addon="xbmc.python" version="3.0.0"/>
+	</requires>
+	<extension point="xbmc.python.module" library="lib" />
+	<extension point="xbmc.addon.metadata">
+		<platform>all</platform>
+		<summary lang="en_GB">ASCII transliterations of Unicode text by Sean M. Burke and Tomaz Solc</summary>
+		<description lang="en_GB">ASCII transliterations of Unicode text by Sean M. Burke and Tomaz Solc</description>
+		<disclaimer lang="en_GB">Code taken from https://pypi.org/project/Unidecode</disclaimer>
+		<license>GPL-2.0-or-later</license>
+		<website>https://pypi.org/project/Unidecode</website>
+		<source>https://pypi.org/project/Unidecode</source>
+	</extension>
+</addon>
+
+<addon id="script.module.urllib3"
+       name="urllib3"
+       version="1.25.8+matrix.1"
+       provider-name="Andrey Petrov">
+  <requires>
+    <import addon="xbmc.python" version="3.0.0"/>
+  </requires>
+  <extension point="xbmc.python.module"
+             library="lib" />
+  <extension point="xbmc.addon.metadata">
+    <summary lang="en_GB">HTTP library with thread-safe connection pooling, file post, and more.</summary>
+    <description lang="en_GB">Packed for KODI from https://pypi.org/project/urllib3/</description>
+    <license>MIT</license>
+    <website>https://urllib3.readthedocs.io/en/latest/</website>
+    <source>https://github.com/urllib3/urllib3</source>
+    <email>freso.dk AT gmail.com</email>
+    <assets>
+      <icon>resources/icon.png</icon>
     </assets>
   </extension>
 </addon>
@@ -1644,6 +1937,27 @@ v0.5.0 (2020-06-25)
       <screenshot>resources/screenshot.jpg</screenshot>
     </assets>
     <news>- 1.5.6: Fixed not being able to assign a local variable via the debugger console.</news>
+  </extension>
+</addon>
+
+<addon id="script.module.win_inet_pton" name="win-inet-pton" version="1.1.0+matrix.1" provider-name="hickeroar">
+  <requires>
+    <import addon="xbmc.python" version="3.0.0"/>
+  </requires>
+  <extension point="xbmc.python.module" library="lib"/>
+  <extension point="xbmc.addon.metadata">
+    <summary lang="en_GB">Native python inet_pton implementation on Windows (with ctypes)</summary>
+    <description lang="en_GB">Native inet_pton and inet_ntop implementation for Python on Windows (with ctypes).</description>
+    <platform>windows</platform>
+    <language></language>
+    <license>Public Domain</license>
+    <forum></forum>
+    <website>https://github.com/hickeroar/win_inet_pton</website>
+    <source>https://github.com/dagwieers/script.module.win_inet_pton</source>
+    <email>dag@wieers.com</email>
+    <assets>
+      <icon>icon.png</icon>
+    </assets>
   </extension>
 </addon>
 
