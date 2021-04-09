@@ -494,6 +494,33 @@ v3.0.0
     </extension>
 </addon>
 
+<addon id="plugin.video.vimeo" name="Vimeo" version="6.0.0" provider-name="jaylinski">
+    <requires>
+        <import addon="xbmc.python" version="3.0.0"/>
+        <import addon="script.module.requests" version="2.22.0"/>
+    </requires>
+    <extension point="xbmc.python.pluginsource" library="addon.py">
+        <provides>video</provides>
+    </extension>
+    <extension point="xbmc.addon.metadata">
+        <summary lang="de_DE">Vimeo lässt dich fantastische Videos der weltbesten Filmemacher entdecken.</summary>
+        <summary lang="en_GB">Vimeo lets you discover amazing videos from the world’s best creators.</summary>
+        <disclaimer lang="en_GB">This plugin is not official, approved or endorsed by Vimeo.</disclaimer>
+        <platform>all</platform>
+        <license>MIT</license>
+        <forum>https://forum.kodi.tv/showthread.php?tid=220437</forum>
+        <website>https://vimeo.com</website>
+        <source>https://github.com/jaylinski/kodi-addon-vimeo</source>
+        <news>6.0.0 (2021-02-25)
+Added support for Kodi v19 (Matrix)
+        </news>
+        <assets>
+            <icon>resources/icon.png</icon>
+            <fanart>resources/fanart.jpg</fanart>
+        </assets>
+    </extension>
+</addon>
+
 <addon id="plugin.video.youtube" name="YouTube" version="6.8.10+matrix.1" provider-name="anxdpanic, bromix">
     <requires>
         <import addon="xbmc.python" version="3.0.0"/>
@@ -1517,6 +1544,27 @@ v0.5.0 (2020-06-25)
         <source>https://github.com/mnooner256/pyqrcode</source>
         <assets>
             <icon>icon.png</icon>
+        </assets>
+    </extension>
+</addon>
+
+<addon id="script.module.pyscrypt"
+    name="PyScrypt"
+    version="1.6.2+matrix.1"
+    provider-name="ricmoo">
+    <requires>
+        <import addon="xbmc.python" version="3.0.0"/>
+    </requires>
+    <extension point="xbmc.python.module" library="lib" />
+    <extension point="xbmc.addon.metadata">
+        <summary lang="en_GB">Pure-Python Implementation of the scrypt password-based key derivation function and scrypt file format library</summary>
+        <description lang="en_GB">A very simple, pure-Python implementation of the scrypt password-based key derivation function and scrypt file format library with no dependencies beyond standard Python libraries.</description>
+        <platform>all</platform>
+        <license>MIT</license>
+        <website>https://github.com/ricmoo/pyscrypt</website>
+        <source>https://github.com/ricmoo/pyscrypt</source>
+        <assets>
+            <icon>resources/icon.png</icon>
         </assets>
     </extension>
 </addon>
