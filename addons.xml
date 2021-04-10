@@ -143,6 +143,45 @@ You can clone the project and host it in your own server.
 	</extension>
 </addon>
 
+<addon id="plugin.image.KodiTVR-JORNAL" name="[COLOR green]KodiTVR[/COLOR][COLOR yellow]-[/COLOR][COLOR red]JORNAL[/COLOR]" version="3.0.1+matrix.1" provider-name="KodiTVR">
+    <requires>
+        <import addon="xbmc.python" version="3.0.0"/>
+        <import addon="script.module.routing" version="0.2.0"/>
+        <import addon="script.module.requests" version="2.22.0"/>
+    </requires>
+    <extension point="xbmc.python.pluginsource" library="main.py">
+        <provides>image</provides>
+    </extension>
+    <extension point="xbmc.addon.metadata">
+        <summary lang="en_GB">Daily portuguese newspapper covers in Kodi</summary>
+        <summary lang="pt_PT">Capas diárias dos jornais portugueses no Kodi</summary>
+        <description lang="en_GB">A Kodi image plugin for Banca Sapo</description>
+        <description lang="pt_PT">Um plugin para o Kodi para aceder à Banca Sapo</description>
+        <language>pt</language>
+        <platform>all</platform>
+        <license>GPL-3.0</license>
+        <website>https://24.sapo.pt/jornais</website>
+        <email>koditvr@gmail.com</email>
+        <source>https://github.com/KodiTVR-add-on/repository.KodiTVR.MATRIX/tree/main/plugin.image.KodiTVR-JORNAL</source>
+        <news>
+            3.0.1:
+                - Automatic submissions to krypton and matrix
+                - Fix languages
+                - Addon-check fixes
+        </news>
+        <disclaimer lang="en_GB">Addon not endorsed by SAPO, add-on endorsed by Mod KodiTVR</disclaimer>
+        <disclaimer lang="pt_PT">Add-on não desenvolvido pelo SAPO, add-on endorsed by Mod KodiTVR</disclaimer>
+        <assets>
+            <icon>resources/images/icon.png</icon>
+            <fanart>resources/images/fanart.jpg</fanart>
+            <screenshot>resources/images/screenshot-01.jpg</screenshot>
+            <screenshot>resources/images/screenshot-02.jpg</screenshot>
+            <screenshot>resources/images/screenshot-03.jpg</screenshot>
+            <screenshot>resources/images/screenshot-04.jpg</screenshot>
+        </assets>
+    </extension>
+</addon>
+
 <addon id="plugin.program.reddit_navigator" name="Reddit Navigator" version="1.1.0" provider-name="Twilight0">
     <requires>
         <import addon="xbmc.addon" version="16.1.000"/>
