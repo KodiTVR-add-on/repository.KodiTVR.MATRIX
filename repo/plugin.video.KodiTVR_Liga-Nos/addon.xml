@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<addon id="plugin.video.KodiTVR_Liga-Nos" name="[COLORred]KodiTVR[/COLOR]  LIGA NOS" version="1.0.0" provider-name="KodiTVR">
+  <requires>
+    <import addon="xbmc.python" version="3.0.0"/>
+    <import addon="plugin.video.youtube"/>
+  </requires>
+ <extension point="xbmc.python.pluginsource" library="default.py">
+    <provides>video</provides>
+ </extension>
+ <extension point="xbmc.addon.metadata">
+    <summary lang="en">[COLORlime] Liga NOS On the channels of the clubs of the Portuguese First League, the Second League, National Sports (Portuguese), international football.[/COLOR] [PT] [COLORgold]Liga Nos canais dos clubes da Primeira Liga Portuguesa, Segunda Liga, Desporto nacional(Português), futebol internacional.[/COLOR]</summary>
+    <description lang="en">[COLOR yellow]-compatible with Kodi19.x version[/COLOR] - List of Portuguese and international club channels for the add-on ... for Kodi, featuring all the official channels and fan pages of the Clubs of Liga Nos (Primeira Liga) ... National sport (Portuguese), football International. [COLORgreen][P[/COLOR][COLORred]T][/COLOR] - Lista de canais de clubes portugueses e internacionais para o add-on...p'o Kodi, apresentando todos os canais oficiais e páginas de fãs dos Clubes da Liga Nos(Primeira Liga)...Desporto nacional(Português), futebol internacional.</description>
+    <platform>all</platform>
+    <repository>https://koditvr-add-on.github.io/repository.KodiTVR.MATRIX/</repository>
+    <website>https://koditvr.wixsite.com/website</website>
+    <assets>
+    <icon>icon.png</icon>
+	<fanart>fanart.jpg</fanart>
+    </assets>
+ </extension>
+</addon>
