@@ -841,6 +841,27 @@ You can clone the project and host it in your own server.
     </extension>
 </addon>
 
+<addon id="plugin.video.KodiTVR.BOXING" name="[COLOR chocolate][B]KodiTVR[/B][/COLOR] BOXING" version="1.0.0+matrix" provider-name="KodiTVR">
+  <requires>
+    <import addon="xbmc.python" version="3.0.0"/>
+    <import addon="plugin.video.youtube"/>
+  </requires>
+ <extension point="xbmc.python.pluginsource" library="default.py">
+    <provides>video</provides>
+ </extension>
+ <extension point="xbmc.addon.metadata">
+    <summary lang="en">[COLOR red]KodiTVR Add-on BOXING[/COLOR]</summary>
+    <description lang="en">[COLOR yellow]-For Kodi 19.x version[/COLOR] [COLOR blue]KodiTVR[/COLOR]
+	ADD-ON - MATRIX  [COLOR lime]BOXING[/COLOR].</description>
+    <platform>all</platform>
+    <website>https://koditvr.wixsite.com/website</website>
+    <assets>
+    <icon>icon.png</icon>
+	<fanart>fanart.jpg</fanart>
+    </assets>
+ </extension>
+</addon>
+
 <addon id="plugin.video.KodiTVR.FORMULA.1" name="[COLOR red][B]KodiTVR[/B][/COLOR] FORMULA 1" version="1.0.0+matrix" provider-name="KodiTVR">
   <requires>
     <import addon="xbmc.python" version="3.0.0"/>
