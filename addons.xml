@@ -1,5 +1,606 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <addons>
+<addon
+  id="inputstream.adaptive"
+  version="2.6.13"
+  name="InputStream Adaptive"
+  provider-name="peak3d">
+  <requires>
+<import addon="kodi.binary.global.main" minversion="1.2.0" version="1.3.0"/>
+<import addon="kodi.binary.global.general" minversion="1.0.4" version="1.0.5"/>
+<import addon="kodi.binary.global.filesystem" minversion="1.1.0" version="1.1.6"/>
+<import addon="kodi.binary.global.tools" minversion="1.0.0" version="1.0.4"/>
+<import addon="kodi.binary.instance.inputstream" minversion="3.0.1" version="3.0.1"/>
+<import addon="kodi.binary.instance.videocodec" minversion="2.0.1" version="2.0.2"/></requires>
+  <extension
+    point="kodi.inputstream"
+    name="adaptive"
+    extension=""
+    tags="true"
+    listitemprops="license_type|license_key|license_data|license_flags|manifest_type|server_certificate|stream_headers|manifest_update_parameter|original_audio_language|media_renewal_url|media_renewal_time|max_bandwidth|play_timeshift_buffer"
+    library_windows="inputstream.adaptive.dll"/>
+  <extension point="xbmc.addon.metadata">
+    <summary lang="en_GB">InputStream client for adaptive streams</summary>
+    <summary lang="es_ES">Cliente InputStream para flujo de datos adaptativos</summary>
+    <description lang="en_GB">InputStream client for adaptive streams</description>
+    <description lang="es_ES">Cliente InputStream para flujo de datos adaptativos</description>
+    <platform>windows-x86_64</platform>
+    <news>
+v2.6.13 (2021-04-10)
+- Fix Debian packaging
+
+v2.6.12 (2021-04-09)
+- Remove Android specific decrypter search paths
+- Move Android addon to binary addons repo
+
+v2.6.11 (2021-04-08)
+- Fix ampersand in changelog causing issues from v2.6.9 and v2.6.10
+
+v2.6.10 (2021-04-08)
+- Fix release build
+
+v2.6.9 (2021-04-08)
+- Fix MPD Timing (remove publishTime and presentationTimeOffset)
+- [Dash] Correctly set timeshift_buffer (live)
+- [Dash] Support fpsScale in AdaptationSets
+- [Dash] Fix missing audio languages
+- [DASH] Support ec-3 channel count (urn:mpeg:mpegB:cicp:ChannelConfiguration)
+
+v2.6.8 (2021-03-26)
+- [Dash] Append / to baseurl if required
+- Fix Base Domain (fixes uri=/path/)
+
+v2.6.7 (2021-02-10)
+- Fix build for ios/tvos
+- Use the full BaseUrl if it's a real url inside an AdaptationSet
+
+v2.6.6 (2020-11-21)
+- Matrix VideoCodec API change to v2.0.2 - Fix crypto session id handling
+
+v2.6.5 (2020-11-09)
+- Matrix API change to v3.0.1 - Fix wrong flags bit shift
+
+v2.6.4 (2020-10-31)
+- Fix protocol search in manifest URL
+
+v2.6.3 (2020-10-31)
+- New C-api changes
+- Fix URL's without domain (files)
+- [MPD] Fix SegmentTimeline without given startTime
+
+v2.6.2 (2020-10-30)
+- revert / rework effective url issues
+- api related changes (buildsystem)
+
+v2.6.1 (2020-10-25)
+- Fix effective url if paths beginning with / provided
+- Several translations added / fixed
+- Fix webvtt subtitles for time formats without leading hour 00:
+- Fix segfault when playing PlayReady content (Android)
+- Adapt to kodi c api changes
+
+v2.6.0 (2020-05-16)
+- Update inputstream API 2.3.1
+- Update Global API 1.2.0
+
+v2.5.6 (2020-04-25)
+- Matrix API change to v2.3.0 - Pass mime type to inputstreams if available
+- Matrix API change to v2.2.0 - Allows upto 256 streams, useful for netflix etc.
+
+v2.5.5 (2020-04-06)
+- Matrix API change - Remove CanPauseSteram() and CanSeekStream()
+- Update .gitignore
+
+v2.5.4 (2020-01-19)
+- [HLS] url based initialization segment
+- [DASH] Use effective URL for manifest update
+- Implement Media Renewal Time
+- Fixed WebVTT rlm and lrm
+- Fixed and improved subtitle properties)
+- Add multiple languages
+- [DASH] Fix zero devision segfault
+
+v2.5.3 (2019-11-21)
+- Fix retrieving SIDX from indexRange streams (youtube)
+- Rework seek (use lead stream)
+
+v2.5.2 (2019-11-18)
+- More languages added
+- DolbyVision codec (dvhe) support, kodi changes required to get it work
+- Add property to start LiveStreams from beginning (play_timeshift_buffer)
+- Pass media_headers when downloading pssh-search segment
+- Minor DASH full update / timing / url generation fixes
+
+v2.5.1 (2019-10-07)
+- Language spain added
+- multi period support
+- mp4 webtt binary representation added
+- minor fixes
+
+v2.5.0 (2019-09-02)
+- New major versions for Matrix
+
+v2.4.0 (2019-08-16)
+- Update Kodi VFS API 1.0.3
+- Build script cleanups
+- Implement VP9 static HDR metadata
+- MPD: location attibute added
+- MPD: livestream bugfixes (uninitialized startPTS)
+
+v2.3.22 (2019-06-14)
+- Bento4: sample duration workaround (24/1)
+- WVDecrypter: remove sleep between decrypt calls
+
+v2.3.21 (2019-06-07)
+- [DASH] initialize segment::range_begin_ for URL segments (youtube)
+
+v2.3.20 (2019-06-07)
+- Fix parsing PR ContentProtection KID
+
+v2.3.19 (2019-06-02)
+- [widevine] remove API 8 / Add API 11
+- [TS] Signal configuration change if extra-data has changed
+- [DASH] Use PlayReady WRMHEADER to retrieve DefaultKID
+- [DASH] Allow URL_SEGMENTS + Range-Bytes
+
+v2.3.18 (2019-05-11)
+- align settings with internal resolution check
+- [HLS] support single playlists
+
+v2.3.17 (2019-04-16)
+- Fix KID's with 0 char inside
+
+v2.3.16 (2019-03-25)
+- TTML parser fix
+- [HLS] Add HEVC streams / Fix extra_data_size in ts parser
+- [HLS] effective URL for license
+
+v2.3.15 (2019-02-11)
+- Fix windows build
+
+v2.3.14 (2019-02-10)
+- Add WebM container parser
+    </news>
+  </extension>
+</addon>
+
+<addon id="inputstream.adaptive.testing" name="InputStream Adaptive Testing" provider-name="peak3d" version="2.6.6.1-Matrix">
+  <requires>
+<import addon="kodi.binary.global.main" minversion="1.2.0" version="1.3.0" />
+<import addon="kodi.binary.global.general" minversion="1.0.4" version="1.0.5" />
+<import addon="kodi.binary.global.filesystem" minversion="1.1.0" version="1.1.6" />
+<import addon="kodi.binary.global.tools" minversion="1.0.0" version="1.0.4" />
+<import addon="kodi.binary.instance.inputstream" minversion="3.0.1" version="3.0.1" />
+<import addon="kodi.binary.instance.videocodec" minversion="2.0.1" version="2.0.2" /></requires>
+  <extension extension="" library_windows="inputstream.adaptive.testing.dll" listitemprops="license_type|license_key|license_data|license_flags|manifest_type|server_certificate|stream_headers|manifest_update_parameter|original_audio_language|media_renewal_url|media_renewal_time|max_bandwidth|play_timeshift_buffer" name="adaptive" point="kodi.inputstream" tags="true" />
+  <extension point="xbmc.addon.metadata">
+    <summary lang="en_GB">InputStream client for adaptive streams</summary>
+    <summary lang="es_ES">Cliente InputStream para flujo de datos adaptativos</summary>
+    <description lang="en_GB">InputStream client for adaptive streams</description>
+    <description lang="es_ES">Cliente InputStream para flujo de datos adaptativos</description>
+    <platform>windows-x86_64</platform>
+    <news>[B]Version v2.6.6.1-Matrix[/B]
+- inputstream.adaptive -&gt; inputstream.adaptive.testing
+- Version bump to 2.6.6
+- increase version to 2.6.5 (API related)
+- version bump 2.6.4
+- Fix protocol search in url
+- version bump 2.6.3
+- [DASH] remove static time helper in SegmentTemplate
+- Fix local filenames / base_domain
+- version bump -&gt; 2.6.2
+- use ATTRIBUTE_HIDDEN on all classes to prevent warning and have more safe
+- use C++ kodi::addon::VideoCodecInitdata
+- separate C++ and C parts in own headers
+- use "C" only DEMUX_PACKET
+- use StreamCrypto.h in own folder and improve
+- move StreamCodec.h to inputstream folder
+- use independent TimingConstants.h for addons
+- use C++ class for INPUTSTREAM_MASTERING_METADATA and INPUTSTREAM_CONTENTLIGHT_METADATA
+- use C++ InputstreamInfo to translate INPUTSTREAM_INFO
+- use C++ InputstreamCapabilities to translate INPUTSTREAM_CAPABILITIES
+- use C++ InputstreamProperty to translate INPUTSTREAM_PROPERTY
+- Remove duplicate languages
+- use special callback on GetStream function
+- change interface headers to match and support C style
+- change get_stream call to match C API
+- change get_stream_ids call to match "C" API
+- [MPD] don't overwrite initial base_path
+- Drop kodiplatform from d/control
+- effective_domain imlementation for absolute paths
+- Revert "xchange base_url with effective_url instead replacing before download"
+- version bump -&gt; 2.6.1
+- Fix '6play' test
+- DASHTreeTest: print hex strings
+- DASHTreeTest: fix 'unsigned char' printing
+- Add Hebrew translation [he_IL]
+- Fix manifest_parameter -&gt; update_parameter
+- Updated german translation
+- Fix WebVTT 4 / 5 time length
+- xchange base_url with effective_url instead replacing before download
+- [HLS][Revert] share parameters between master / sub playlists
+- Remove logging of unknown encryption methods (logspam)
+- API related change
+- [WebVTT] Fix binary representation
+- remove debug flags
+- Don't stack subtitle if begin and end are equal
+- FreeSegments - operate on specific period
+- [HLS] EXT-X-DISCONTINUITY-SEQUENCE support
+- Use CDllHelper for opening ssd_wv
+- Add parsing adaptionSet "name" parameter
+- Update Swedish translation
+- Fix url decoder
+- Updated italian translation
+- Improved language files
+- Fixed wrong uppercase
+- Moved slovak translation to language folder
+- [Android] only request and log (max)securitylevel and querykeystatus if
+- [TTML] Fix wrong applied m_ptsOffset on first sub
+- Correct Dolby Vision implementation (Matrix Only)
+- Fix url decoder
+- Updated Swedish translations
+- ctest implementation
+- [DASH] Adjust timing calculation
+- VUI: use framerate only if fixed_frame_rate_flag is set
+- Simplify processEncryption
+- allow new dolby schemeIdUri
+- Clang format
+- Add .clang-format
+- Check for representation duration if seek past last segment
+- [WEBVTT] Allow timespec without hours
+- [Android] Log DRM securityLevel after key request
+- Fix Netflix subs on seek / resume play
+- Fix segmented subtitles for live streams
+- [DASH] Fix youtube live subtitles
+- [DASH] Fix youtube live with multiple subs
+</news></extension>
+</addon>
+
+<addon
+  id="inputstream.ffmpegdirect"
+  version="1.21.1"
+  name="Inputstream FFmpeg Direct"
+  provider-name="Ross Nicholson">
+  <requires>
+<import addon="kodi.binary.global.main" minversion="1.2.0" version="1.3.0"/>
+<import addon="kodi.binary.global.general" minversion="1.0.4" version="1.0.5"/>
+<import addon="kodi.binary.global.filesystem" minversion="1.1.0" version="1.1.6"/>
+<import addon="kodi.binary.global.network" minversion="1.0.0" version="1.0.4"/>
+<import addon="kodi.binary.global.tools" minversion="1.0.0" version="1.0.4"/>
+<import addon="kodi.binary.instance.inputstream" minversion="3.0.1" version="3.0.1"/></requires>
+  <extension
+    point="kodi.inputstream"
+    name="ffmpegdirect"
+    extension=""
+    tags="true"
+    listitemprops="program_number|stream_mode|open_mode|manifest_type|default_url|is_realtime_stream|playback_as_live|programme_start_time|programme_end_time|catchup_url_format_string|catchup_url_near_live_format_string|catchup_buffer_start_time|catchup_buffer_end_time|catchup_buffer_offset|catchup_terminates|catchup_granularity|timezone_shift|default_programme_duration|programme_catchup_id"
+    library_windows="inputstream.ffmpegdirect.dll" />
+  <extension point="xbmc.service" library="resources/lib/runner.py"/>
+  <extension point="xbmc.addon.metadata">
+    <summary lang="de_DE">InputStream Client für FFmpeg-Streams (libavformat)</summary>
+    <summary lang="en_GB">InputStream Client for FFmpeg streams (libavformat)</summary>
+    <description lang="de_DE">InputStream-Client für Streams, die entweder mit dem libav-Format von FFmpeg oder mit cURL von Kodi geöffnet werden können. Gängige Stream-Formate wie TS, HLS und DASH (ohne DRM) werden ebenso unterstützt wie viele andere.&#10;    &#10;Das Addon unterstützt auch Archiv-/Aufholdienste, bei denen Wiedergabefenster vorhanden sind (normalerweise in Tagen), und kann über diesen Zeitraum hinweg eine Zeitverschiebung bewirken.&#10;    &#10;Dokumentation finden Sie unter: https://github.com/xbmc/inputstream.ffmpegdirect/blob/Matrix/README.md&#10;    </description>
+    <description lang="en_GB">InputStream Client for streams that can be opened by either FFmpeg's libavformat or Kodi's cURL. Common stream formats such as plain TS, HLS and DASH (without DRM) are supported as well as many others.&#10;    &#10;The addon also has support for Archive/Catchup services where there is a replay windows (usually in days) and can timeshift across that span.&#10;    &#10;For documenation visit: https://github.com/xbmc/inputstream.ffmpegdirect/blob/Matrix/README.md&#10;    </description>
+    <platform>windows-x86_64</platform>
+    <license>GPL-2.0-or-later</license>
+    <source>https://github.com/xbmc/inputstream.ffmpegdirect</source>
+    <assets>
+      <icon>icon.png</icon>
+      <fanart>fanart.jpg</fanart>
+    </assets>
+    <news>
+v1.21.1
+- Fixed: remove workaround for ffmpeg deprecated function on windowsstore
+- Fixed: Replace deprecated av_init_packet() from ffmpeg
+
+v1.21.0
+- Update: FFmpeg to 4.4
+- Update: Update gas preprocessor for ffmpeg4.4
+- Fixed: Ignore deprecation warning as errors for ffmpegs av_init_packet() for windowsstore
+
+v1.20.1
+- Fixed: release version fix
+
+v1.20.0
+- Update: FFmpeg to 4.3.2
+- Added: If open_mode is default make sure the right protocols default to open with ffmpeg
+
+v1.19.4
+- Fixed: Fix locking on EOF detection of terminating catchup stream by using std:recursive_mutex
+
+v1.19.3
+- Update: move verbose playback timeshift logging to debug level
+- Update: Update cmakelists to reference FFMPEGDIRECT at build time
+
+v1.19.2
+- Update: Demuxer additions from kodi
+
+v1.19.1
+- Fixed: Ensure all values in GetTimes() default to zero
+
+v1.19.0
+- Added: FFmpeg patch for satip improvements
+- Added: SafeLocaltime and custom catchup timestamp formats
+- Added: Now timestamp and custom timestamp format for live catchup URL
+- Added: Use curl for mingw package downloads
+
+v1.18.2
+- Update: Redact inputstream property URLs when logged
+
+v1.18.1
+- Update: Add temporary ffmpeg patch for embedded EIT (EPG) data in mepgts streams
+
+v1.18.0
+- Update: inputstream API 3.0.1
+  - Fix wrong flags bit shift
+
+v1.17.0
+- Update: inputstream API 3.0.0
+
+v1.16.0
+- Update: Inputstream API 2.3.4
+- Added: German translation
+- Added: Debian build test to Travis CI
+
+v1.15.5
+- Update: Use add-on supplied StringUtils and remove local version
+- Update: Remove local threading code and use addon supplied instead
+- Update: Use new addon supplied CEndTime class based on chrono
+- Update: Add autoreconf step to lib zvbi
+
+v1.15.4
+- Update: Remove p8-platforms and add local StringUtils for cpp17
+- Update: Nettle patch for xcode 12
+
+v1.15.3
+- Update: gnutls 3.6.15 and nettle 3.6 bump
+
+v1.15.2
+- Update: bump to fix version number
+
+v1.15.1
+- Fixed: Use correct index for streams using a program number, fixes EIT data embedded in streams
+- Update: FFmpeg to 4.3.1
+
+v1.15.0
+- Added: Add fast open for manifest stream and test setting for realtime off
+- Fixed: Honour realtime stream property
+- Fixed: Fix using prev button to seek back to start of stream
+- Fixed: Ensure no slash at end of timeshift buffer path
+- Fixed: Make sure write segment file is closed when buffer is destroyed
+- Fixed: Use overwrite when opening files for write for compatibility with SMB on Android
+- Fixed: Don't start timeshift and exit if index file cannot be created
+- Update: If any timeshift file cannot be created log free disk space
+- Fixed: Avoid crash for zero byte or partial timeshift segment files
+- Fixed: Only read ffmpeg logging setting on stream start
+- Update: Redact username and password for urls in log statements
+- Fixed: Only create timeshift directory if it does not exist
+
+v1.14.5
+- Fixed: Fix lintian spellings and mimetype log statement
+- Update: Readme
+
+v1.14.4
+- Fixed: Use kodi's own FFmpeg for ubuntu packaging
+
+v1.14.3
+- Update: Use FFmpeg 4.3
+
+v1.14.2
+- Fixed: Debian packaging
+
+v1.14.1
+- Update: Kodi API Bump
+
+v1.14.0
+- Added: Add HLS bandwidth limit and teletext/fps advanced settings
+- Fixed: Add missing ATTRIBUTE_HIDDEN qualifer to InputSteamFFmpegDirect class
+- Fixed: Fix memory leak for DemuxStreams
+- Update: README
+
+v1.13.0
+- Added: Add setting for user to limit the length of the timeshift buffer
+
+v1.12.0
+- Added: Support seeking for VOD streams or regular file playback
+- Fixed: Update HLS iformat name and remove hls workaround which is fixed in current FFmpeg
+- Added: Timeshift for live streams (experimental)
+- Added: Add support for Kodi user-agent and cookies when calling FFmpeg directly
+- Added: Support multiple occurrences of year, month and day in catchup format specifiers
+- Added: Add option to turn FFmpeg logging on/off
+
+v1.11.0
+- Update: inputstream API 2.3.1
+- Update: Global API 1.2.0
+
+v1.10.0
+- Added: Continued playback of catchtup streams which don't support delayed live streams
+- Added: Skip unsupported seeks like ones too close to live or those less one minute for streams that only allow a 1 minute granulaity
+- Added: Limit seeking for terminating 1 second streams to within 1 minute of live and for 60 streams 2 minutes
+- Update: Debian control file
+- Update: gas-preprocessor to latest version and remove patch that is no longer required
+- Update: .gitignore
+- Fixed: Fix arch typo ffmpeg darwin_embedded
+- Fixed: Cleanup apple frameworks usage in cmakelists
+- Added: Change logging implementation and deprecate use of NOTICE level
+- Added: Allow streams to be opened using cURL in addition to FFmpeg
+- Update: Fix TS Streams by disallowing streaminfo for realtime streams
+- Update: MKV Attachment and IsTransportStreamReady() updates from kodi
+
+v1.9.2
+- Update: Use generic mimetype from stream and remove old mime_type property
+
+v1.9.1
+- Update: Inpustream API 2.3.0
+
+v1.9.0
+- Added: HTTP Proxy support
+- Update: Remove PauseStream for Inputstream API 2.2.0
+- Fixed: fix changelog.in for debian packaging
+
+v1.8.2
+- Fixed: Ubuntu packaging
+- Added: Updated RTP patch
+
+v1.8.1
+- Fixed: Suppress verbose logging on libxml2 on osx that causes travis builds to fail
+
+v1.8.0
+- Added: Support live URL in addition to catchup URL
+- Added: Support resuming from pause and to catchup stream
+- Update: Remove CanSeekStream and CanPauseStream for Inputstream API v2.1.0
+- Update: .gitignore
+
+v1.7.3
+- Update: Remove pthreads library as now w32pthreads is used instead
+- Update: libxml2 disable unused components for common depends and remove unrequired patch
+- Update: Update libxml2 to 2.9.10 for windows, disable html module and remove unrequired patches
+- Update: Enable asm for gnutls and nettle for darwin_embedded
+
+v1.7.2
+- Update: w32pthreads
+- Fixed: gnutls disable tools for OSX 10.15.4 compatibility
+- Fixed: libxml2 patch for OSX 10.15.4/Xcode 11.4 compatibility
+- Update: SPDX, headers and badges
+- Update: gnutls to 3.6.13
+- Update: gmp on android to 6.2.0
+
+v1.7.1
+- Fixed: tvOS build
+
+v1.7.0
+- Update: remove unrequired gnutls patch
+- Fixed: Replace ;'s workaround for cmake bug for ffmpeg LDFLAGS
+- Added: Patch for ffmpeg using rtp protocol where sources option is not retained
+- Update: Document programme_catchup_id stream property in README
+- Added: Support for timestamp catchup format specifier
+- Added: Support duration units format specifer to convert duration to mins or hours
+- Update: Update darwin deprecated thread call
+- Fixed: validate duration format specifier and cap to time now
+- Added: Add optional stream property for live catchup url
+- Added: Support for offset catchup format specifier
+- Fixed: Disable Neon for arm for iOS/tvOS
+- Fixed: Raspberry Pi build
+
+v1.6.0
+- Added: Support catchup-id stream property
+- Added: Enable pthreads for FFmpeg on Windows to allow circular buffer for UDP streams
+- Added: Fanart and icon
+- Added: Move from appveyor to Azure DevOps to windows CI
+- Added: Source and license to addon.xml
+- Added: p8-platform to addon depends
+- Fixed: Remove kodi protocol options before opening URL
+- Fixed: Wrong mms/rtp/udp url being used
+- Fixed: Android linkage for ffmpeg broken
+- Fixed: Travis status image
+- Update: To gnutls-3.6.12
+
+v1.5.0
+- Update: FFmpeg-n4.2.2, patches refreshed
+
+v1.4.1
+- Update: Cleanup logging
+
+v1.4.0
+- Added: gnutls patch to add libdl to support newer OSes
+- Added: Add support for mms and rtp/udp streams with sources
+- Fixed: Add workaround for CMake and Frameworks on Darwin
+
+v1.3.0
+- Added: Support for Windows and iOS
+- Update: To gmp-6.2.0
+- Update: To nettle-3.5.1
+- Update: To gnutls-3.6.11.1
+
+v1.2.1
+- Fixed: Support for XCode build with GCC via travis
+
+v1.2.0
+- Added: Jenkinsfile and .travel.yml
+- Added: Support for Android and linux
+- Fixed: Some depnds errors for iOS, still more to fix
+- Added: Clang and g++ build supported from Travis, osx travis not working
+
+v1.1.0
+- Added: Support for chapters
+
+v1.0.0
+- Added: Initial version working for both normal streams and those supporting catchup
+
+Full changelog here: https://github.com/xbmc/inputstream.ffmpegdirect/blob/Matrix/inputstream.ffmpegdirect/changelog.txt
+    </news>
+  </extension>
+</addon>
+
+<addon
+  id="inputstream.rtmp"
+  version="3.4.0"
+  name="RTMP Input"
+  provider-name="spiff">
+  <requires>
+<import addon="kodi.binary.global.main" minversion="1.2.0" version="1.3.0"/>
+<import addon="kodi.binary.global.general" minversion="1.0.4" version="1.0.5"/>
+<import addon="kodi.binary.instance.inputstream" minversion="3.0.1" version="3.0.1"/></requires>
+  <extension
+    point="kodi.inputstream"
+    name="rtmp"
+    protocols="rtmp|rtmpt|rtmpe|rtmpte|rtmps"
+    listitemprops="SWFPlayer|swfurl|PageURL|PlayPath|TcUrl|IsLive|swfvfy"
+    library_windows="inputstream.rtmp.dll" />
+  <extension point="xbmc.addon.metadata">
+    <summary lang="de_DE">Client für RTMP-Streams</summary>
+    <summary lang="en_GB">Client for RTMP streams</summary>
+    <description lang="de_DE">Das Real Time Messaging Protocol (RTMP) ist ein proprietäres Netzwerkprotokoll, das von Adobe Inc. entwickelt wurde, um Audio-, Video- und andere Daten über das Internet von einem Medienserver zu einem Flash Player zu übertragen.
+
+Dieses Addon implementiert die RTMP-Streaming-Unterstützung für Kodi und installierte Add-Ons.</description>
+    <description lang="en_GB">The Real Time Messaging Protocol (RTMP) is a proprietary network protocol developed by Adobe Inc. to transmit audio, video and other data over the Internet from a media server to a flash player.
+
+This addon implements RTMP streaming support for Kodi and installed add-ons.</description>
+    <platform>windows-x86_64</platform>
+    <license>GPL-2.0-or-later</license>
+    <source>https://github.com/xbmc/inputstream.rtmp</source>
+    <assets>
+      <icon>icon.png</icon>
+    </assets>
+    <news>v3.4.0
+- Update: inputstream API 3.0.1
+  - Fix wrong flags bit shift
+
+v3.3.0
+- Update inputstream API 3.0.0
+- Fix and allow use of stream values:
+  - SWFPlayer
+  - swfurl (same as SWFPlayer)
+  - PageURL
+  - PlayPath
+  - TcUrl
+  - IsLive
+  - swfvfy
+
+v3.2.0
+- Matrix API change inputstream API 2.3.4
+- Add german translation
+- Improve debian package build and add test to Travis CI
+
+v3.1.1
+- Bump verion for PPA build Global API 1.2.0 and inputstream API 2.3.1
+
+v3.1.0
+- Matrix API change inputstream API 2.3.1
+- Matrix APi change Global API 1.2.0
+
+v3.0.5
+- Matrix API change to v2.3.0 - Re-release API change
+
+v3.0.4
+- Matrix API change to v2.3.0 - Pass mime type to inputstreams if available
+
+v3.0.3
+- Matrix API change to v2.2.0 - Allows upto 256 streams
+    </news>
+  </extension>
+</addon>
+
 <addon id="plugin.audio.KodiTVR_radio_pt" name="[COLORgreen]KodiTVR [COLORyellow]RADIO [COLORred]MATRIX[/COLOR]" provider-name="KodiTVR" version="3.0.5+matrix.0">
     <requires>
         <import addon="xbmc.python" version="3.0.0" />
