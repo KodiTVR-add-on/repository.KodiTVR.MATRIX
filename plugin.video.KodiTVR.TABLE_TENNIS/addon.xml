@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<addon id="plugin.video.KodiTVR.TABLE_TENNIS" name="[COLOR blue]KodiTVR[/COLOR] TABLE [COLOR chocolate]TENNIS[/COLOR]" version="1.0.0+matrix" provider-name="KodiTVR">
+  <requires>
+    <import addon="xbmc.python" version="3.0.0"/>
+    <import addon="plugin.video.youtube"/>
+  </requires>
+ <extension point="xbmc.python.pluginsource" library="default.py">
+    <provides>video</provides>
+ </extension>
+ <extension point="xbmc.addon.metadata">
+    <summary lang="en">[COLOR cyan]KodiTVR Add-on[/COLOR]  [COLOR blue]KodiTVR[/COLOR] TABLE [COLOR chocolate]TENNIS[/COLOR]</summary>
+    <description lang="en">[COLOR yellow]-For Kodi 19.x version[/COLOR] [COLOR lime]KodiTVR[/COLOR]  
+	ADD-ON - MATRIX  [COLOR red]Plugin video Add-on[/COLOR]  [COLOR blue]KodiTVR[/COLOR] TABLE [COLOR chocolate]TENNIS[/COLOR].</description>
+    <platform>all</platform>
+    <website>https://koditvr.wixsite.com/website</website>
+    <assets>
+    <icon>icon.png</icon>
+	<fanart>fanart.jpg</fanart>
+    </assets>
+ </extension>
+</addon>
