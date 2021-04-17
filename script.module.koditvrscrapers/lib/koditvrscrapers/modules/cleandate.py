@@ -1,5 +1,8 @@
 # -*- coding: utf-8 -*-
-"""
+
+'''
+    KodITVR Add-on
+
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
@@ -12,7 +15,7 @@
 
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
-"""
+'''
 
 
 import time,datetime
@@ -24,6 +27,7 @@ def iso_2_utc(iso_ts):
     if not iso_ts.endswith('Z'):
         delim = iso_ts.rfind('+')
         if delim == -1: delim = iso_ts.rfind('-')
+
     if delim > -1:
         ts = iso_ts[:delim]
         sign = iso_ts[delim]
@@ -31,10 +35,13 @@ def iso_2_utc(iso_ts):
     else:
         ts = iso_ts
         tz = None
+
     if ts.find('.') > -1:
         ts = ts[:ts.find('.')]
+
     try: d = datetime.datetime.strptime(ts, '%Y-%m-%dT%H:%M:%S')
     except TypeError: d = datetime.datetime(*(time.strptime(ts, '%Y-%m-%dT%H:%M:%S')[0:6]))
+
     dif = datetime.timedelta()
     if tz:
         hours, minutes = tz.split(':')
@@ -50,3 +57,5 @@ def iso_2_utc(iso_ts):
     try: seconds = delta.total_seconds()  # works only on 2.7
     except: seconds = delta.seconds + delta.days * 24 * 3600  # close enough
     return seconds
+
+

@@ -15,9 +15,17 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 '''
 
+# - Converted to py3/2 for KodiTVR
+
+
 import re
-import urllib
-import urlparse
+
+try: from urlparse import parse_qs, urljoin
+except ImportError: from urllib.parse import parse_qs, urljoin
+try: from urllib import urlencode, quote_plus
+except ImportError: from urllib.parse import urlencode, quote_plus
+
+from six.moves import zip
 
 from koditvrscrapers.modules import cleantitle
 from koditvrscrapers.modules import client
@@ -37,7 +45,7 @@ class source:
     def movie(self, imdb, title, localtitle, aliases, year):
         try:
             url = {'imdb': imdb, 'title': title, 'year': year}
-            url = urllib.urlencode(url)
+            url = urlencode(url)
             return url
         except:
             return
@@ -46,7 +54,7 @@ class source:
     def tvshow(self, imdb, tvdb, tvshowtitle, localtvshowtitle, aliases, year):
         try:
             url = {'imdb': imdb, 'tvdb': tvdb, 'tvshowtitle': tvshowtitle, 'year': year}
-            url = urllib.urlencode(url)
+            url = urlencode(url)
             return url
         except:
             return
@@ -56,10 +64,10 @@ class source:
         try:
             if url is None:
                 return
-            url = urlparse.parse_qs(url)
+            url = parse_qs(url)
             url = dict([(i, url[i][0]) if url[i] else (i, '') for i in url])
             url['title'], url['premiered'], url['season'], url['episode'] = title, premiered, season, episode
-            url = urllib.urlencode(url)
+            url = urlencode(url)
             return url
         except:
             return
@@ -74,19 +82,18 @@ class source:
             if debrid.status() is False:
                 return sources
 
-            data = urlparse.parse_qs(url)
+            data = parse_qs(url)
             data = dict([(i, data[i][0]) if data[i] else (i, '') for i in data])
 
             title = data['tvshowtitle'] if 'tvshowtitle' in data else data['title']
-            title = title.replace('&', 'and').replace('Special Victims Unit', 'SVU')
 
             hdlr = 'S%02dE%02d' % (int(data['season']), int(data['episode'])) if 'tvshowtitle' in data else data['year']
 
             query = '%s %s' % (title, hdlr)
             query = re.sub('(\\\|/| -|:|;|\*|\?|"|\'|<|>|\|)', '', query)
 
-            url = self.search_link % urllib.quote_plus(query)
-            url = urlparse.urljoin(self.base_link, url)
+            url = self.search_link % quote_plus(query)
+            url = urljoin(self.base_link, url)
 
             try:
                 r = client.request(url)
@@ -113,23 +120,25 @@ class source:
                     quality, info = source_utils.get_release_quality(name, url)
 
                     try:
-                        size = int(link[1])
+                        size = link[1]
                         size = str(size) + ' GB' if len(str(size)) == 1 else str(size) + ' MB'
                         dsize, isize = source_utils._size(size)
                     except:
-                        dsize, isize = 0, ''
+                        dsize, isize = 0.0, ''
 
                     info.insert(0, isize)
                     info = ' | '.join(info)
 
                     sources.append({'source': 'torrent', 'quality': quality, 'language': 'en', 'url': url,
-                                                'info': info, 'direct': False, 'debridonly': True, 'size': dsize})
+                                                'info': info, 'direct': False, 'debridonly': True, 'size': dsize, 'name': name})
                 return sources
 
             except:
                 return sources
 
         except:
+            from koditvrscrapers.modules import log_utils
+            log_utils.log('bitlord - Exception', 1)
             return sources
 
 

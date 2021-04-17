@@ -1,32 +1,34 @@
 # -*- coding: UTF-8 -*-
-'''
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
+#######################################################################
+# ----------------------------------------------------------------------------
+# "THE BEER-WARE LICENSE" (Revision 42):
+# @tantrumdev wrote this file.  As long as you retain this notice you
+# can do whatever you want with this stuff. If we meet some day, and you think
+# this stuff is worth it, you can buy me a beer in return. - Muad'Dib
+# ----------------------------------------------------------------------------
+#######################################################################
 
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-'''
+# - Converted to py3/2 for KodiTVR
 
 
 import re
-import urllib
-import urlparse
 
-from koditvrscrapers.modules import cache, cleantitle, client, debrid, log_utils, source_utils, utils
+try:
+    from urlparse import parse_qs, urljoin
+    from urllib import urlencode, quote_plus, unquote
+except ImportError:
+    from urllib.parse import parse_qs, urljoin, urlencode, quote_plus, unquote
+
+import six
+
+from koditvrscrapers.modules import cache, cleantitle, client, debrid, log_utils, source_utils
 
 
 class source:
     def __init__(self):
         self.priority = 1
         self.language = ['en']
-        self.domains = ['kickass.vc', 'kickass2.cc', 'kickass2.how', 'kickasst.org', 'kickasstorrents.id', 'thekat.cc', 'thekat.ch', 'thekat.li', 'kickasstorrents.bz', 'kkickass.com', 'kkat.net', 'kickasst.net', 'kickasshydra.net', 'kickasshydra.org', 'kickass-kat.com', 'kickasstorrents.id', 'thekat.cc', 'thekat.ch']
+        self.domains = ['kick4ss.com', 'kickasstorrents.id', 'kickasstorrents.bz', 'kkickass.com', 'kkat.net', 'kickass-kat.com', 'kickasst.net', 'thekat.cc', 'kickasshydra.net', 'kickasshydra.org', 'kickass.onl', 'thekat.info', 'kickass.cm']
         self._base_link = None
         self.search_link = '/usearch/%s'
 
@@ -42,7 +44,7 @@ class source:
 
         try:
             url = {'imdb': imdb, 'title': title, 'year': year}
-            url = urllib.urlencode(url)
+            url = urlencode(url)
             return url
         except Exception:
             return
@@ -53,7 +55,7 @@ class source:
 
         try:
             url = {'imdb': imdb, 'tvdb': tvdb, 'tvshowtitle': tvshowtitle, 'year': year}
-            url = urllib.urlencode(url)
+            url = urlencode(url)
             return url
         except Exception:
             return
@@ -66,10 +68,10 @@ class source:
             if url is None:
                 return
 
-            url = urlparse.parse_qs(url)
+            url = parse_qs(url)
             url = dict([(i, url[i][0]) if url[i] else (i, '') for i in url])
             url['title'], url['premiered'], url['season'], url['episode'] = title, premiered, season, episode
-            url = urllib.urlencode(url)
+            url = urlencode(url)
             return url
         except Exception:
             return
@@ -80,22 +82,23 @@ class source:
             if url is None:
                 return sources
 
-            data = urlparse.parse_qs(url)
+            data = parse_qs(url)
             data = dict([(i, data[i][0]) if data[i] else (i, '') for i in data])
 
             title = data['tvshowtitle'] if 'tvshowtitle' in data else data['title']
+            title = cleantitle.get_query(title)
 
             hdlr = 'S%02dE%02d' % (int(data['season']), int(data['episode'])) if 'tvshowtitle' in data else data['year']
 
             query = '%s S%02dE%02d' % (
-                data['tvshowtitle'],
+                title,
                 int(data['season']),
                 int(data['episode'])) if 'tvshowtitle' in data else '%s %s' % (
-                data['title'],
+                title,
                 data['year'])
             query = re.sub('(\\\|/| -|:|;|\*|\?|"|<|>|\|)', ' ', query)
-            url = self.search_link % urllib.quote_plus(query)
-            url = urlparse.urljoin(self.base_link, url)
+            url = self.search_link % quote_plus(query)
+            url = urljoin(self.base_link, url)
             html = client.request(url)
             if html is None:
                 return sources
@@ -105,7 +108,7 @@ class source:
             except Exception:
                 return sources
             if rows is None:
-                log_utils.log('KICKASS - No Torrents In Search Results')
+                #log_utils.log('KICKASS - No Torrents In Search Results')
                 return sources
 
             for entry in rows:
@@ -128,7 +131,7 @@ class source:
 
                     try:
                         link = 'magnet%s' % (re.findall('url=magnet(.+?)"', entry, re.DOTALL)[0])
-                        link = str(urllib.unquote(link).decode('utf8').split('&tr')[0])
+                        link = str(unquote(six.ensure_text(link)).split('&tr')[0])
                     except Exception:
                         continue
 
@@ -136,21 +139,16 @@ class source:
 
                     try:
                         size = re.findall('((?:\d+\.\d+|\d+\,\d+|\d+)\s*(?:GB|GiB|MB|MiB))', entry)[-1]
-                        dsize, isize = utils._size(size)
+                        dsize, isize = source_utils._size(size)
                     except Exception:
-                        dsize, isize = 0, ''
+                        dsize, isize = 0.0, ''
 
                     info.insert(0, isize)
-
-                    #try:
-                        #info.append(name)
-                    #except Exception:
-                        #pass
 
                     info = ' | '.join(info)
 
                     sources.append({'source': 'Torrent', 'quality': quality, 'language': 'en',
-                                    'url': link, 'info': info, 'direct': False, 'debridonly': True, 'size': dsize})
+                                    'url': link, 'info': info, 'direct': False, 'debridonly': True, 'size': dsize, 'name': name})
                 except Exception:
                     continue
 
@@ -159,7 +157,8 @@ class source:
                 sources = check
 
             return sources
-        except Exception:
+        except:
+            log_utils.log('kickass_exc', 1)
             return sources
 
     def __get_base_url(self, fallback):
@@ -167,9 +166,9 @@ class source:
             for domain in self.domains:
                 try:
                     url = 'https://%s' % domain
-                    result = client.request(url, timeout='10')
-                    search_n = re.findall('<input type="txt" name="(.+?)"', result, re.DOTALL)[0]
-                    if search_n and 'q1' in search_n:
+                    result = client.request(url, limit=1, timeout='4')
+                    search_n = re.findall('<title>(.+?)</title>', result, re.DOTALL)[0]
+                    if search_n and 'Kickass' in search_n:
                         return url
                 except Exception:
                     pass

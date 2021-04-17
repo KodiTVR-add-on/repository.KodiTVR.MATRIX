@@ -1,21 +1,18 @@
 # -*- coding: UTF-8 -*-
-'''
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
+# -Cleaned and Checked on 03-17-2019 by JewBMX in Scrubs.
 
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
+import re
 
-    You should have received a copy of the GNU General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-'''
+from six import ensure_text
 
-import re,urllib,urlparse,json
-from koditvrscrapers.modules import client,debrid,source_utils
+try: from urlparse import parse_qs
+except ImportError: from urllib.parse import parse_qs
+try: from urllib import urlencode, quote_plus
+except ImportError: from urllib.parse import urlencode, quote_plus
+
+import simplejson as json
+from koditvrscrapers.modules import cleantitle, client, debrid, source_utils, log_utils, control
+from koditvrscrapers.sources_oathscrapers import cfScraper
 
 
 class source:
@@ -29,7 +26,7 @@ class source:
     def movie(self, imdb, title, localtitle, aliases, year):
         try:
             url = {'imdb': imdb, 'title': title, 'year': year}
-            url = urllib.urlencode(url)
+            url = urlencode(url)
             return url
         except BaseException:
             return
@@ -37,7 +34,7 @@ class source:
     def tvshow(self, imdb, tvdb, tvshowtitle, localtvshowtitle, aliases, year):
         try:
             url = {'imdb': imdb, 'tvdb': tvdb, 'tvshowtitle': tvshowtitle, 'year': year}
-            url = urllib.urlencode(url)
+            url = urlencode(url)
             return url
         except BaseException:
             return
@@ -45,45 +42,51 @@ class source:
     def episode(self, url, imdb, tvdb, title, premiered, season, episode):
         try:
             if url is None: return
-            url = urlparse.parse_qs(url)
+            url = parse_qs(url)
             url = dict([(i, url[i][0]) if url[i] else (i, '') for i in url])
             url['title'], url['premiered'], url['season'], url['episode'] = title, premiered, season, episode
-            url = urllib.urlencode(url)
+            url = urlencode(url)
             return url
         except BaseException:
             return
 
     def sources(self, url, hostDict, hostprDict):
+        sources = []
         try:
-            sources = []
             if url is None: return sources
             if debrid.status() is False: raise Exception()
-            data = urlparse.parse_qs(url)
+            data = parse_qs(url)
             data = dict([(i, data[i][0]) if data[i] else (i, '') for i in data])
-            query = '%s S%02dE%02d' % (data['tvshowtitle'], int(data['season']), int(data['episode'])) if 'tvshowtitle' in data else '%s' % data['imdb']
+            title = data['tvshowtitle'] if 'tvshowtitle' in data else data['title']
+            title = cleantitle.get_query(title)
+            query = '%s S%02dE%02d' % (title, int(data['season']), int(data['episode'])) if 'tvshowtitle' in data else '%s' % data['imdb']
             query = re.sub('(\\\|/| -|:|;|\*|\?|"|\'|<|>|\|)', ' ', query)
-            token = client.request(self.token)
+            token = cfScraper.get(self.token).content
             token = json.loads(token)["token"]
             if 'tvshowtitle' in data:
-                search_link = self.tvsearch.format(token, urllib.quote_plus(query), 'format=json_extended')
+                search_link = self.tvsearch.format(token, quote_plus(query), 'format=json_extended')
             else:
                 search_link = self.msearch.format(token, data['imdb'], 'format=json_extended')
-            rjson = client.request(search_link)
+            control.sleep(250)
+            rjson = cfScraper.get(search_link).content
+            rjson = ensure_text(rjson, errors='ignore')
             files = json.loads(rjson)['torrent_results']
             for file in files:
                 name = file["title"]
                 url = file["download"]
                 url = url.split('&tr')[0]
                 quality, info = source_utils.get_release_quality(name, url)
-                dsize = float(file["size"]) / 1073741824
-                isize = '%.2f GB' % dsize
-                #size = source_utils.convert_size(file["size"])
-                #size = '[B]%s[/B]' % size
+                try:
+                    dsize = float(file["size"]) / 1073741824
+                    isize = '%.2f GB' % dsize
+                except:
+                    dsize, isize = 0.0, ''
                 info.insert(0, isize)
                 info = ' | '.join(info)
-                sources.append({'source': 'Torrent', 'quality': quality, 'language': 'en', 'url': url, 'info': info, 'direct': False, 'debridonly': True, 'size': dsize})
+                sources.append({'source': 'Torrent', 'quality': quality, 'language': 'en', 'url': url, 'info': info, 'direct': False, 'debridonly': True, 'size': dsize, 'name': name})
             return sources
-        except BaseException:
+        except:
+            log_utils.log('torapi - Exception', 1)
             return sources
 
     def resolve(self, url):

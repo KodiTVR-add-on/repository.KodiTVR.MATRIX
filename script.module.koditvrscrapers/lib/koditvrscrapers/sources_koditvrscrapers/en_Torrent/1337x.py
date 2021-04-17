@@ -1,26 +1,17 @@
 # -*- coding: utf-8 -*-
-'''
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
-
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-'''
 
 
 import re
-import traceback
-import urllib
-import urlparse
 
-from koditvrscrapers.modules import cache, cleantitle, client, debrid, log_utils, source_utils, workers, utils
+try:
+    from urlparse import parse_qs, urljoin
+    from urllib import urlencode, quote
+except ImportError:
+    from urllib.parse import parse_qs, urljoin, urlencode, quote
+
+from six import ensure_text
+
+from koditvrscrapers.modules import cache, cleantitle, client, debrid, log_utils, source_utils, workers
 from koditvrscrapers.modules import dom_parser2 as dom
 from koditvrscrapers.sources_koditvrscrapers import cfScraper
 
@@ -28,8 +19,14 @@ class source:
     def __init__(self):
         self.priority = 1
         self.language = ['en']
-        self.domains = ['1337x.to', '1337x.st', '1337x.is', '1337x.unblocker.cc', '1337x.se', '1337x.eu', '1337x.ws']
+        self.domains = ['1337x.to', '1337x.is', '1337x.st', 'x1337x.se', 'x1337x.eu', 'x1337x.ws', '1337x.gd']
         self._base_link = None
+
+    @property
+    def base_link(self):
+        if not self._base_link:
+            self._base_link = cache.get(self.__get_base_url, 120, 'https://%s' % self.domains[0])
+        return self._base_link
 
     def movie(self, imdb, title, localtitle, aliases, year):
         if debrid.status() is False:
@@ -37,11 +34,10 @@ class source:
 
         try:
             url = {'imdb': imdb, 'title': title, 'year': year}
-            url = urllib.urlencode(url)
+            url = urlencode(url)
             return url
-        except Exception:
-            failure = traceback.format_exc()
-            log_utils.log('1337x - Exception: \n' + str(failure))
+        except:
+            log_utils.log('1337x - Exception', 1)
             return
 
     def tvshow(self, imdb, tvdb, tvshowtitle, localtvshowtitle, aliases, year):
@@ -50,11 +46,10 @@ class source:
 
         try:
             url = {'imdb': imdb, 'tvdb': tvdb, 'tvshowtitle': tvshowtitle, 'year': year}
-            url = urllib.urlencode(url)
+            url = urlencode(url)
             return url
-        except Exception:
-            failure = traceback.format_exc()
-            log_utils.log('1337x - Exception: \n' + str(failure))
+        except:
+            log_utils.log('1337x - Exception', 1)
             return
 
     def episode(self, url, imdb, tvdb, title, premiered, season, episode):
@@ -65,14 +60,13 @@ class source:
             if url is None:
                 return
 
-            url = urlparse.parse_qs(url)
+            url = parse_qs(url)
             url = dict([(i, url[i][0]) if url[i] else (i, '') for i in url])
             url['title'], url['premiered'], url['season'], url['episode'] = title, premiered, season, episode
-            url = urllib.urlencode(url)
+            url = urlencode(url)
             return url
-        except Exception:
-            failure = traceback.format_exc()
-            log_utils.log('1337x - Exception: \n' + str(failure))
+        except:
+            log_utils.log('1337x - Exception', 1)
             return
 
     def sources(self, url, hostDict, hostprDict):
@@ -83,44 +77,42 @@ class source:
                 return self._sources
 
             if debrid.status() is False:
-                raise Exception()
-
-            if self._base_link is None:
-                self.base_link = cache.get(self.__get_base_url, 240, 'https://%s' % self.domains[0])
+                return self._sources
 
             self.tvsearch = '%s/sort-category-search/%s/TV/seeders/desc/1/' % (self.base_link, '%s')
             self.moviesearch = '%s/sort-category-search/%s/Movies/size/desc/1/' % (self.base_link, '%s')
 
-            data = urlparse.parse_qs(url)
+            data = parse_qs(url)
             data = dict([(i, data[i][0]) if data[i] else (i, '') for i in data])
 
             self.title = data['tvshowtitle'] if 'tvshowtitle' in data else data['title']
+            self.title = cleantitle.get_query(self.title)
             self.hdlr = 'S%02dE%02d' % (int(data['season']), int(data['episode'])
                                         ) if 'tvshowtitle' in data else data['year']
 
             query = '%s S%02dE%02d' % (
-                data['tvshowtitle'],
+                self.title,
                 int(data['season']),
                 int(data['episode'])) if 'tvshowtitle' in data else '%s %s' % (
-                data['title'],
+                self.title,
                 data['year'])
             query = re.sub('(\\\|/| -|:|;|\*|\?|"|\'|<|>|\|)', ' ', query)
             urls = []
             if 'tvshowtitle' in data:
-                urls.append(self.tvsearch % (urllib.quote(query)))
+                urls.append(self.tvsearch % (quote(query)))
                 '''
                 Why spam for multiple pages, since it gives plenty on each page?
 
-                urls.append(self.tvsearch.format(urllib.quote(query), '2'))
-                urls.append(self.tvsearch.format(urllib.quote(query), '3'))
+                urls.append(self.tvsearch.format(quote(query), '2'))
+                urls.append(self.tvsearch.format(quote(query), '3'))
                 '''
             else:
-                urls.append(self.moviesearch % (urllib.quote(query)))
+                urls.append(self.moviesearch % (quote(query)))
                 '''
                 Why spam for multiple pages, since it gives plenty on each page?
 
-                urls.append(self.moviesearch.format(urllib.quote(query), '2'))
-                urls.append(self.moviesearch.format(urllib.quote(query), '3'))
+                urls.append(self.moviesearch.format(quote(query), '2'))
+                urls.append(self.moviesearch.format(quote(query), '3'))
                 '''
             threads = []
             for url in urls:
@@ -136,17 +128,19 @@ class source:
             [i.join() for i in threads2]
 
             return self._sources
-        except BaseException:
+        except:
+            log_utils.log('1337x_exc2', 1)
             return self._sources
 
     def _get_items(self, url):
         try:
             r = cfScraper.get(url).content
+            r = ensure_text(r, errors='replace')
             posts = client.parseDOM(r, 'tbody')[0]
             posts = client.parseDOM(posts, 'tr')
             for post in posts:
                 data = dom.parse_dom(post, 'a', req='href')[1]
-                link = urlparse.urljoin(self.base_link, data.attrs['href'])
+                link = urljoin(self.base_link, data.attrs['href'])
                 name = data.content
                 t = name.split(self.hdlr)[0]
 
@@ -162,13 +156,14 @@ class source:
 
                 try:
                     size = re.findall('((?:\d+\,\d+\.\d+|\d+\.\d+|\d+\,\d+|\d+)\s*(?:GiB|MiB|GB|MB))', post)[0]
-                    dsize, isize = utils._size(size)
+                    dsize, isize = source_utils._size(size)
                 except BaseException:
-                    dsize, isize = 0, ''
+                    dsize, isize = 0.0, ''
 
                 self.items.append((name, link, isize, dsize))
             return self.items
-        except BaseException:
+        except:
+            log_utils.log('1337x_exc0', 1)
             return self.items
 
     def _get_sources(self, item):
@@ -177,6 +172,7 @@ class source:
             quality, info = source_utils.get_release_quality(name, item[1])
             info.insert(0, item[2])
             data = cfScraper.get(item[1]).content
+            data = ensure_text(data, errors='replace')
             data = client.parseDOM(data, 'a', ret='href')
             url = [i for i in data if 'magnet:' in i][0]
             url = url.split('&tr')[0]
@@ -184,8 +180,9 @@ class source:
 
             self._sources.append(
                 {'source': 'Torrent', 'quality': quality, 'language': 'en', 'url': url, 'info': info, 'direct': False,
-                 'debridonly': True, 'size': item[3]})
-        except BaseException:
+                 'debridonly': True, 'size': item[3], 'name': name})
+        except:
+            log_utils.log('1337x_exc1', 1)
             pass
 
     def __get_base_url(self, fallback):
@@ -193,9 +190,10 @@ class source:
             for domain in self.domains:
                 try:
                     url = 'https://%s' % domain
-                    result = cfScraper.get(url).content
-                    search_n = re.findall('<input type="search" placeholder="(.+?)"', result, re.DOTALL)[0]
-                    if search_n and 'Search for torrents..' in search_n:
+                    result = cfScraper.get(url, timeout=7).content
+                    result = ensure_text(result, errors='ignore')
+                    search_n = re.findall('<title>(.+?)</title>', result, re.DOTALL)[0]
+                    if result and '1337x' in search_n:
                         return url
                 except Exception:
                     pass

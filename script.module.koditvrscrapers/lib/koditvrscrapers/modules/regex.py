@@ -1,6 +1,9 @@
 # -*- coding: utf-8 -*-
 
 '''
+    bennu Add-on
+    Code ported from Shani's LiveStreamsPro Add-on
+
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
@@ -21,21 +24,21 @@ import os
 import sys
 #import urllib
 #import urllib2
-import xbmc
-import xbmcaddon
 import traceback
 #import cookielib
+from kodi_six import xbmc, xbmcaddon
 
 import six
 from six.moves import urllib_parse, urllib_request, http_cookiejar
 
-profile = functions_dir = xbmc.translatePath(xbmcaddon.Addon().getAddonInfo('profile'))
-
 try: from sqlite3 import dbapi2 as database
 except: from pysqlite2 import dbapi2 as database
 
-from koditvrscrapers.modules import client, control
+from koditvrscrapers.modules.modules import client
+from koditvrscrapers.modules.modules import control
 
+
+profile = functions_dir = control.transPath(xbmcaddon.Addon().getAddonInfo('profile'))
 
 def fetch(regex):
     try:
@@ -93,7 +96,7 @@ def resolve(regex):
 
         url = regex.split('<regex>', 1)[0].strip()
         url = client.replaceHTMLCodes(url)
-        url = control.six_encode(url)
+        url = six.ensure_str(url)
 
         r = getRegexParsed(regexs, url)
 
@@ -407,7 +410,7 @@ def getRegexParsed(regexs, url,cookieJar=None,forCookieJarOnly=False,recursiveCa
 
                         try:
                             url = url.replace(u"$doregex[" + k + "]", val)
-                        except: url = url.replace("$doregex[" + k + "]", control.six_decode(val))
+                        except: url = url.replace("$doregex[" + k + "]", six.ensure_text(val))
                     else:
                         if 'listrepeat' in m:
                             listrepeat=m['listrepeat']
@@ -417,7 +420,7 @@ def getRegexParsed(regexs, url,cookieJar=None,forCookieJarOnly=False,recursiveCa
                         val=''
                         if not link=='':
                             #print 'link',link
-                            reg = re.compile(m['expres']).search(link)                            
+                            reg = re.compile(m['expres']).search(link)
                             try:
                                 val=reg.group(1).strip()
                             except: traceback.print_exc()
@@ -433,7 +436,7 @@ def getRegexParsed(regexs, url,cookieJar=None,forCookieJarOnly=False,recursiveCa
                             val=HTMLParser.HTMLParser().unescape(val)
                         try:
                             url = url.replace("$doregex[" + k + "]", val)
-                        except: url = url.replace("$doregex[" + k + "]", control.six_decode(val))
+                        except: url = url.replace("$doregex[" + k + "]", six.ensure_text(val))
                         #print 'ur',url
                         #return val
                 else:

@@ -7,7 +7,7 @@ from . import sources_koditvrscrapers
 
 
 try:
-    import xbmcaddon
+    from kodi_six import xbmcaddon
     __addon__ = xbmcaddon.Addon(id='script.module.koditvrscrapers')
 except:
     __addon__ = None
@@ -81,7 +81,7 @@ def getAllHosters():
     sourceSubFolders = [x[1] for x in os.walk(os.path.dirname(__file__))][0]
     appendList = []
     for item in sourceSubFolders:
-        if item != 'modules':
+        if item not in ['__pycache__', 'modules', 'cfscrape', 'pyaes']:
             _sources(item, appendList)
     return list(set(appendList))
 
@@ -94,6 +94,7 @@ def getScraperFolder(scraper_source):
 def getModuleName(scraper_folders):
     nameList = []
     for s in scraper_folders:
-        try: nameList.append(s.split('_')[1].lower().title())
-        except: pass
+        if not s in ['__pycache__', 'modules', 'cfscrape', 'pyaes']:
+            try: nameList.append(s.split('_')[1].lower().title())
+            except: pass
     return nameList

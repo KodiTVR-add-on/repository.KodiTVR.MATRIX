@@ -1,7 +1,7 @@
 #!/usr/bin/python
 """
-
-    Copyright (C) 2016 tknorris
+    KodiTVR Add-on
+    Copyright (C) 2021 Mod by KodiTVR
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by

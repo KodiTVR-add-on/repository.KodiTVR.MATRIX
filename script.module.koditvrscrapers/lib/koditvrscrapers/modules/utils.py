@@ -1,6 +1,9 @@
 # -*- coding: utf-8 -*-
 
 """
+    Exodus Add-on
+    ///Updated for KodiTVR///
+
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
@@ -20,27 +23,22 @@ import simplejson as json
 import six
 
 
-if six.PY2:
-    unicode = unicode
-elif six.PY3:
-    str = unicode = basestring = str
+# if six.PY2:
+    # unicode = unicode
+# elif six.PY3:
+    # str = unicode = basestring = str
 
 
 def json_load_as_str(file_handle):
     return byteify(json.load(file_handle, object_hook=byteify), ignore_dicts=True)
 
+
 def json_loads_as_str(json_text):
     return byteify(json.loads(json_text, object_hook=byteify), ignore_dicts=True)
 
-def _size(siz):
-    if siz in ['0', 0, '', None]: return 0, ''
-    div = 1 if siz.lower().endswith(('gb', 'gib')) else 1024
-    float_size = float(re.sub('[^0-9|/.|/,]', '', siz.replace(',', '.'))) / div
-    str_size = str('%.2f GB' % float_size)
-    return float_size, str_size
 
 def byteify(data, ignore_dicts=False):
-    if isinstance(data, unicode):
+    if isinstance(data, six.string_types):
         if six.PY2:
             return data.encode('utf-8')
         else:
@@ -50,6 +48,7 @@ def byteify(data, ignore_dicts=False):
     if isinstance(data, dict) and not ignore_dicts:
         return dict([(byteify(key, ignore_dicts=True), byteify(value, ignore_dicts=True)) for key, value in six.iteritems(data)])
     return data
+
 
 def title_key(title):
     try:
@@ -67,3 +66,12 @@ def title_key(title):
         return title[offset:]
     except:
         return title
+
+
+def chunks(l, n):
+    """
+    Yield successive n-sized chunks from l.
+    """
+    for i in list(range(0, len(l), n)):
+        yield l[i:i + n]
+

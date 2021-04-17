@@ -1,16 +1,16 @@
 '''
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
-
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+   KodiTVR Add-on
+   Copyright (C) 2021 Mod by KodiTVR
+   This program is free software: you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation, either version 3 of the License, or
+   (at your option) any later version.
+   This program is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
+   You should have received a copy of the GNU General Public License
+   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 '''
 
 import requests, json, sys
@@ -26,10 +26,10 @@ class source:
                                 "&match=%s&moderated=%s%s&sort=relevance&type=video&offset=0&limit=%s"
         self.tfile_link = "/api/file/get?api_key=%s&t_files=1&id=%s"
         self.login_link = "/api/login/login?login=%s&pwd=%s"
-        self.user_name = control.addon('plugin.video.theoath').getSetting('furk.user_name')
-        self.user_pass = control.addon('plugin.video.theoath').getSetting('furk.user_pass')
-        self.api_key = control.addon('plugin.video.theoath').getSetting('furk.api')
-        self.search_limit = control.addon('plugin.video.theoath').getSetting('furk.limit')
+        self.user_name = control.addon('plugin.video.koditvr').getSetting('furk.user_name')
+        self.user_pass = control.addon('plugin.video.koditvr').getSetting('furk.user_pass')
+        self.api_key = control.addon('plugin.video.koditvr').getSetting('furk.api')
+        self.search_limit = control.addon('plugin.video.koditvr').getSetting('furk.limit')
         self.files = []
 
     def get_api(self):
@@ -50,7 +50,7 @@ class source:
 
                     if p['status'] == 'ok':
                         api_key = p['api_key']
-                        control.addon('plugin.video.theoath').setSetting('furk.api', api_key)
+                        control.addon('plugin.video.koditvr').setSetting('furk.api', api_key)
                     else:
                         pass
 

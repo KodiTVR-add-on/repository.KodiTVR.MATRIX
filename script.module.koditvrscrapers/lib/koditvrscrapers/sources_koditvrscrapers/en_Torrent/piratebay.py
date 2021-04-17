@@ -1,38 +1,36 @@
 # -*- coding: utf-8 -*-
 
-'''
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
-
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-'''
+#######################################################################
+# ----------------------------------------------------------------------------
+# "THE BEER-WARE LICENSE" (Revision 42):
+# @tantrumdev wrote this file.  As long as you retain this notice you
+# can do whatever you want with this stuff. If we meet some day, and you think
+# this stuff is worth it, you can buy me a beer in return. - Muad'Dib
+# ----------------------------------------------------------------------------
+#######################################################################
 
 import re
-import urllib
-import urlparse
+
+try:
+    from urlparse import parse_qs, urljoin
+    from urllib import urlencode, unquote_plus, quote
+except ImportError:
+    from urllib.parse import parse_qs, urljoin, urlencode, unquote_plus, quote
 
 from koditvrscrapers.modules import cache
 from koditvrscrapers.modules import cleantitle
 from koditvrscrapers.modules import client
 from koditvrscrapers.modules import debrid
 from koditvrscrapers.modules import source_utils
-from koditvrscrapers.modules import utils
+from koditvrscrapers.modules import log_utils
 
 
 class source:
     def __init__(self):
         self.priority = 1
         self.language = ['en']
-        self.domains = ['pirateproxy.live', 'thepiratebay.org', 'thepiratebay.fun', 'thepiratebay.asia', 'tpb.party',
-                                'thehiddenbay.com', 'piratebay.live', 'thepiratebay.zone']
+        self.domains = ['pirateproxy.live', 'thepiratebay0.org', 'thepiratebay10.org', 'thehiddenbay.com', 'thepiratebay.zone', 'thepiratebay.asia',
+                        'tpb.party', 'thepiratebay.party', 'piratebay.party', 'piratebay.live', 'piratebayproxy.live', 'piratebay.casa']
         self._base_link = None
         # self.search_link = '/s/?q=%s&page=1&&video=on&orderby=99' #-page flip does not work
         self.search_link = '/search/%s/1/99/200' #-direct link can flip pages
@@ -48,7 +46,7 @@ class source:
     def movie(self, imdb, title, localtitle, aliases, year):
         try:
             url = {'imdb': imdb, 'title': title, 'year': year}
-            url = urllib.urlencode(url)
+            url = urlencode(url)
             return url
         except:
             return
@@ -57,7 +55,7 @@ class source:
     def tvshow(self, imdb, tvdb, tvshowtitle, localtvshowtitle, aliases, year):
         try:
             url = {'imdb': imdb, 'tvdb': tvdb, 'tvshowtitle': tvshowtitle, 'year': year}
-            url = urllib.urlencode(url)
+            url = urlencode(url)
             return url
         except:
             return
@@ -67,10 +65,10 @@ class source:
         try:
             if url is None:
                 return
-            url = urlparse.parse_qs(url)
+            url = parse_qs(url)
             url = dict([(i, url[i][0]) if url[i] else (i, '') for i in url])
             url['title'], url['premiered'], url['season'], url['episode'] = title, premiered, season, episode
-            url = urllib.urlencode(url)
+            url = urlencode(url)
             return url
         except:
             return
@@ -86,20 +84,19 @@ class source:
             if debrid.status() is False:
                 return sources
 
-            data = urlparse.parse_qs(url)
+            data = parse_qs(url)
             data = dict([(i, data[i][0]) if data[i] else (i, '') for i in data])
 
             title = data['tvshowtitle'] if 'tvshowtitle' in data else data['title']
-            title = title.replace('&', 'and').replace('Special Victims Unit', 'SVU')
+            title = cleantitle.get_query(title)
 
-            hdlr = 'S%02dE%02d' % (int(data['season']), int(data['episode'])) if 'tvshowtitle' in data else data['year']
+            hdlr = 's%02de%02d' % (int(data['season']), int(data['episode'])) if 'tvshowtitle' in data else data['year']
 
             query = '%s %s' % (title, hdlr)
             query = re.sub('(\\\|/| -|:|;|\*|\?|"|\'|<|>|\|)', '', query)
 
-            url = self.search_link % urllib.quote(query)
-            url = urlparse.urljoin(self.base_link, url)
-            # log_utils.log('url = %s' % url, log_utils.LOGDEBUG)
+            url = self.search_link % quote(query)
+            url = urljoin(self.base_link, url)
 
             html = client.request(url)
             html = html.replace('&nbsp;', ' ')
@@ -136,9 +133,9 @@ class source:
                     try:
                         name = re.findall('class="detLink" title=".+?">(.+?)</a>', entry, re.DOTALL)[0]
                         name = client.replaceHTMLCodes(name)
-                        name = urllib.unquote_plus(name).replace(' ', '.')
+                        name = unquote_plus(name).replace(' ', '.').lower()
 
-                        t = name.split(hdlr)[0].replace(data['year'], '').replace('(', '').replace(')', '').replace('&', 'and').replace('.US.', '.').replace('.us.', '.')
+                        t = name.split(hdlr)[0].replace(data['year'], '').replace('(', '').replace(')', '').replace('&', 'and').replace('.US.', '.').replace('.us.', '.').lower()
                         if cleantitle.get(t) != cleantitle.get(title):
                             continue
                     except:
@@ -151,22 +148,23 @@ class source:
 
                     try:
                         size = re.findall('((?:\d+\.\d+|\d+\,\d+|\d+)\s*(?:GB|GiB|MB|MiB))', entry)[-1]
-                        dsize, isize = utils._size(size)
+                        dsize, isize = source_utils._size(size)
                     except:
-                        dsize, isize = 0, ''
+                        dsize, isize = 0.0, ''
 
                     info.insert(0, isize)
 
                     info = ' | '.join(info)
 
                     sources.append({'source': 'torrent', 'quality': quality, 'language': 'en', 'url': url,
-                                                'info': info, 'direct': False, 'debridonly': True, 'size': dsize})
+                                    'info': info, 'direct': False, 'debridonly': True, 'size': dsize, 'name': name})
                 except:
                     continue
 
             return sources
 
         except:
+            log_utils.log('tpb_exc', 1)
             return sources
 
 
@@ -175,9 +173,9 @@ class source:
             for domain in self.domains:
                 try:
                     url = 'https://%s' % domain
-                    result = client.request(url, limit=1, timeout='10')
-                    result = re.findall('<input type="submit" title="(.+?)"', result, re.DOTALL)[0]
-                    if result and 'Pirate Search' in result:
+                    result = client.request(url, limit=1, timeout='4')
+                    search_n = re.findall('<title>(.+?)</title>', result, re.DOTALL)[0]
+                    if result and 'Pirate' in search_n:
                         return url
                 except:
                     pass

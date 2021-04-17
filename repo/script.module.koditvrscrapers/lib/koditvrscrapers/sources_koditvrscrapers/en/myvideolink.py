@@ -15,9 +15,18 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 '''
 
+# - Converted to py3/2 for KodiTVR
+
+
 import re
-import urllib
-import urlparse
+
+try: from urlparse import parse_qs, urljoin
+except ImportError: from urllib.parse import parse_qs, urljoin
+try: from urllib import urlencode, quote_plus
+except ImportError: from urllib.parse import urlencode, quote_plus
+
+from six import ensure_text
+from six.moves import zip
 
 from koditvrscrapers.modules import cleantitle, client, source_utils, log_utils
 
@@ -27,7 +36,7 @@ class source:
         self.priority = 1
         self.language = ['en']
         self.domains = ['myvideolinks.net', 'iwantmyshow.tk', 'new.myvideolinks.net']
-        self.base_link = 'http://go.myvideolinks.net'
+        self.base_link = 'http://see.home.kg'
         #self.base_link = 'http://kita.myvideolinks.net'
         self.search_link = '/?s=%s'
 
@@ -35,7 +44,7 @@ class source:
     def movie(self, imdb, title, localtitle, aliases, year):
         try:
             url = {'imdb': imdb, 'title': title, 'year': year}
-            url = urllib.urlencode(url)
+            url = urlencode(url)
             return url
         except Exception:
             return
@@ -44,7 +53,7 @@ class source:
     def tvshow(self, imdb, tvdb, tvshowtitle, localtvshowtitle, aliases, year):
         try:
             url = {'imdb': imdb, 'tvdb': tvdb, 'tvshowtitle': tvshowtitle, 'year': year}
-            url = urllib.urlencode(url)
+            url = urlencode(url)
             return url
         except Exception:
             return
@@ -54,23 +63,23 @@ class source:
         try:
             if url is None:
                 return
-            url = urlparse.parse_qs(url)
+            url = parse_qs(url)
             url = dict([(i, url[i][0]) if url[i] else (i, '') for i in url])
             url['title'], url['premiered'], url['season'], url['episode'] = title, premiered, season, episode
-            url = urllib.urlencode(url)
+            url = urlencode(url)
             return url
         except Exception:
             return
 
 
     def sources(self, url, hostDict, hostprDict):
+        sources = []
         try:
-            sources = []
 
             if url is None:
                 return sources
 
-            data = urlparse.parse_qs(url)
+            data = parse_qs(url)
             data = dict([(i, data[i][0]) if data[i] else (i, '') for i in data])
 
             title = data['tvshowtitle'] if 'tvshowtitle' in data else data['title']
@@ -78,19 +87,19 @@ class source:
             hdlr = 'S%02dE%02d' % (int(data['season']), int(data['episode'])) if 'tvshowtitle' in data else data['year']
 
             query = '%s S%02dE%02d' % (
-                data['tvshowtitle'],
+                title,
                 int(data['season']),
                 int(data['episode'])) if 'tvshowtitle' in data else '%s %s' % (
-                data['title'],
+                title,
                 data['year'])
             query = re.sub('(\\\|/| -|:|;|\*|\?|"|\'|<|>|\|)', ' ', query)
 
-            r = client.request(self.base_link)
-            search_base = client.parseDOM(r, 'form', ret='action', attrs={'id': 'tfnewsearch'})[0]
+            #r = client.request(self.base_link)
+            #search_base = client.parseDOM(r, 'form', ret='action')[0]
             #log_utils.log(search_base)
-            url = urlparse.urljoin(search_base, self.search_link)
-            #url = urlparse.urljoin(self.base_link, self.search_link)
-            url = url % urllib.quote_plus(query)
+            #url = urljoin(search_base, self.search_link)
+            url = urljoin(self.base_link, self.search_link)
+            url = url % quote_plus(query)
 
             r = client.request(url)
 
@@ -103,87 +112,83 @@ class source:
             else:
                 posts = [(i[1], i[0]) for i in z]
 
-            hostDict = hostprDict + hostDict
+            host_dict = hostprDict + hostDict
 
             items = []
 
             for post in posts:
                 try:
-                    try:
-                        t = post[0].encode('utf-8')
-                    except:
-                        t = post[0]
+                    r = client.request(post[1])
+                    r = ensure_text(r, errors='replace')
+                    r = client.parseDOM(r, 'div', attrs={'class': 'entry-content cf'})[0]
 
-                    u = client.request(post[1])
+                    if 'tvshowtitle' in data:
+                        z = zip(re.findall(r'<p><b>(%s.+?)</b>' % title, r, re.I | re.S), re.findall(r'<ul>(.+?)</ul>', r, re.S))
+                        for f in z:
+                            u = re.findall(r'\'(http.+?)\'', f[1]) + re.findall(r'\"(http.+?)\"', f[1])
+                            u = [i for i in u if '/embed/' not in i]
+                            t = f[0]
+                            try: s = re.findall(r'((?:\d+\.\d+|\d+\,\d+|\d+|\d+\,\d+\.\d+)\s*(?:GB|GiB|MB|MiB))', t)[0]
+                            except: s = '0'
+                            items += [(t, i, s) for i in u]
 
-                    u = re.findall('\'(http.+?)\'', u) + re.findall('\"(http.+?)\"', u)
-                    u = [i for i in u if '/embed/' not in i]
-                    u = [i for i in u if 'youtube' not in i]
-
-                    try:
-                        s = re.search('((?:\d+\.\d+|\d+\,\d+|\d+)\s*(?:GB|GiB|MB|MiB))', post)
-                        s = s.groups()[0] if s else '0'
-                    except:
-                        s = '0'
-                        pass
-
-                    items += [(t, i, s) for i in u]
+                    else:
+                        t = ensure_text(post[0], errors='replace')
+                        u = re.findall(r'\'(http.+?)\'', r) + re.findall('\"(http.+?)\"', r)
+                        u = [i for i in u if '/embed/' not in i]
+                        try: s = re.findall(r'((?:\d+\.\d+|\d+\,\d+|\d+|\d+\,\d+\.\d+)\s*(?:GB|GiB|MB|MiB))', r)[0]
+                        except: s = '0'
+                        items += [(t, i, s) for i in u]
 
                 except:
+                    log_utils.log('MYVIDEOLINK ERROR', 1)
                     pass
 
             for item in items:
                 try:
-                    url = item[1]
-
+                    url = ensure_text(item[1])
                     url = client.replaceHTMLCodes(url)
-                    url = url.encode('utf-8')
 
-                    void = ('.rar', '.zip', '.iso', '.part', '.png', '.jpg', '.bmp', '.gif')
+                    void = ('.rar', '.zip', '.iso', '.part', '.png', '.jpg', '.bmp', '.gif', 'sub', 'srt')
                     if url.endswith(void):
-                        raise Exception()
+                        continue
 
-                    valid, host = source_utils.is_host_valid(url, hostDict)
-                    if not valid:
-                        raise Exception()
-
-                    host = client.replaceHTMLCodes(host)
-                    host = host.encode('utf-8')
-
-                    name = item[0]
+                    name = ensure_text(item[0], errors='replace')
                     name = client.replaceHTMLCodes(name)
 
-                    t = re.sub('(\.|\(|\[|\s)(\d{4}|S\d*E\d*|S\d*|3D)(\.|\)|\]|\s|)(.+|)', '', name, flags=re.I)
+                    t = re.sub(r'(\.|\(|\[|\s)(\d{4}|S\d*E\d*|S\d*|3D)(\.|\)|\]|\s|)(.+|)', '', name, re.I)
                     if not cleantitle.get(t) == cleantitle.get(title):
-                        raise Exception()
+                        continue
 
-                    y = re.findall('[\.|\(|\[|\s](\d{4}|S\d*E\d*|S\d*)[\.|\)|\]|\s]', name)[-1].upper()
+                    y = re.findall(r'[\.|\(|\[|\s](\d{4}|S\d*E\d*|S\d*)[\.|\)|\]|\s]', name)[-1].upper()
                     if not y == hdlr:
-                        raise Exception()
+                        continue
+
+                    valid, host = source_utils.is_host_valid(url, host_dict)
+                    if not valid:
+                        continue
+                    host = client.replaceHTMLCodes(host)
 
                     quality, info = source_utils.get_release_quality(name, url)
 
                     try:
-                        size = re.findall('((?:\d+\.\d+|\d+\,\d+|\d+) (?:GB|GiB|MB|MiB))', item[2])[-1]
-                        div = 1 if size.endswith(('GB', 'GiB')) else 1024
-                        size = float(re.sub('[^0-9|/.|/,]', '', size)) / div
-                        size = '[B]%.2f GB[/B]' % size
-                        info.append(size)
+                        size = item[2]
+                        dsize, isize = source_utils._size(size)
                     except:
-                        pass
+                        dsize, isize = 0.0, ''
+                    info.insert(0, isize)
 
                     info = ' | '.join(info)
 
                     sources.append({'source': host, 'quality': quality, 'language': 'en', 'url': url, 'info': info,
-                                                'direct': False, 'debridonly': False})
+                                    'direct': False, 'debridonly': False, 'size': dsize, 'name': name})
                 except:
+                    log_utils.log('MYVIDEOLINK ERROR', 1)
                     pass
 
             return sources
         except:
-            import traceback
-            fail = traceback.format_exc()
-            log_utils.log('MYVIDEOLINK ERROR: ' + str(fail))
+            log_utils.log('MYVIDEOLINK ERROR', 1)
             return sources
 
 

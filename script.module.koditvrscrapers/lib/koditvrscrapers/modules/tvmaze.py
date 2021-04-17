@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 
 '''
+    KodiTVR Add-on
+
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
@@ -16,15 +18,16 @@
 '''
 
 
-import base64#, urllib
+import base64
 import simplejson as json
 
+import six
 from six.moves import urllib_parse
 
 import requests
 
 from koditvrscrapers.modules import cache
-from koditvrscrapers.modules import client, control
+from koditvrscrapers.modules import client
 
 
 class tvMaze:
@@ -147,7 +150,7 @@ class tvMaze:
             r = requests.get(url, timeout=15, verify=True).content
             title = client.parseDOM(r, 'SeriesName')[0]
             title = client.replaceHTMLCodes(title)
-            title = control.six_encode(title)
+            title = six.ensure_str(title)
 
             return title
         except:

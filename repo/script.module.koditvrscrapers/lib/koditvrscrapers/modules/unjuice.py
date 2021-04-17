@@ -1,6 +1,9 @@
 # -*- coding: utf-8 -*-
 
 '''
+    KodiTVR Add-on
+    Copyright (C) 2021 Mod by KodiTVR
+
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
@@ -57,7 +60,7 @@ def run(e):
 
     try:
         t = jsunpack.unpack(t)
-        t = unicode(t, 'utf-8') if six.PY2 else str(t, 'utf-8')
+        t = six.ensure_text(t)
     except:
         t = None
     

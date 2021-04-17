@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 
 """
+    KodiTVR Add-on
+
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
@@ -43,6 +45,6 @@ def resolver(url, debrid):
         _host, _media_id = debrid_resolver.get_host_and_id(url)
         stream_url = debrid_resolver.get_media_url(_host, _media_id)
         return stream_url
-    except Exception as e:
-        log_utils.log('%s Resolve Failure: %s' % (debrid, e), log_utils.LOGWARNING)
+    except:
+        log_utils.log('%s Resolve Failure' % debrid, 1)
         return None

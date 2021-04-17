@@ -15,7 +15,12 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 '''
 
-import re, urllib, urlparse
+import re
+
+try: from urlparse import parse_qs
+except ImportError: from urllib.parse import parse_qs
+try: from urllib import urlencode, quote_plus, quote
+except ImportError: from urllib.parse import urlencode, quote_plus, quote
 
 from koditvrscrapers.modules import debrid
 from koditvrscrapers.modules import cleantitle
@@ -29,13 +34,13 @@ class source:
         self.priority = 1
         self.language = ['en']
         self.domains = ['torrentdownloads.me', 'torrentsdl1.unblocked.lol']
-        self.base_link = 'https://torrentsdl1.unblocked.to/'
-        self.search = 'https://torrentsdl1.unblocked.to/rss.xml?new=1&type=search&cid={0}&search={1}'
+        self.base_link = 'https://www.torrentdownloads.me/'
+        self.search = 'https://www.torrentdownloads.me/rss.xml?new=1&type=search&cid={0}&search={1}'
 
     def movie(self, imdb, title, localtitle, aliases, year):
         try:
             url = {'imdb': imdb, 'title': title, 'year': year}
-            url = urllib.urlencode(url)
+            url = urlencode(url)
             return url
         except BaseException:
             return
@@ -43,7 +48,7 @@ class source:
     def tvshow(self, imdb, tvdb, tvshowtitle, localtvshowtitle, aliases, year):
         try:
             url = {'imdb': imdb, 'tvdb': tvdb, 'tvshowtitle': tvshowtitle, 'year': year}
-            url = urllib.urlencode(url)
+            url = urlencode(url)
             return url
         except BaseException:
             return
@@ -52,37 +57,36 @@ class source:
         try:
             if url is None: return
 
-            url = urlparse.parse_qs(url)
+            url = parse_qs(url)
             url = dict([(i, url[i][0]) if url[i] else (i, '') for i in url])
             url['title'], url['premiered'], url['season'], url['episode'] = title, premiered, season, episode
-            url = urllib.urlencode(url)
+            url = urlencode(url)
             return url
         except BaseException:
             return
 
     def sources(self, url, hostDict, hostprDict):
+        self._sources = []
         try:
-            self._sources = []
             if url is None:
                 return self._sources
 
             if debrid.status() is False:
-                raise Exception()
+                return self._sources
 
-            data = urlparse.parse_qs(url)
+            data = parse_qs(url)
             data = dict([(i, data[i][0]) if data[i] else (i, '') for i in data])
 
             self.title = data['tvshowtitle'] if 'tvshowtitle' in data else data['title']
+            self.title = cleantitle.get_query(self.title)
             self.hdlr = 'S%02dE%02d' % (int(data['season']), int(data['episode'])) if 'tvshowtitle' in data else data['year']
 
-            query = '%s S%02dE%02d' % (
-            data['tvshowtitle'], int(data['season']), int(data['episode'])) if 'tvshowtitle' in data else '%s %s' % (
-            data['title'], data['year'])
+            query = '%s S%02dE%02d' % (self.title, int(data['season']), int(data['episode'])) if 'tvshowtitle' in data else '%s %s' % (self.title, data['year'])
             query = re.sub(r'(\\\|/| -|:|;|\*|\?|"|\'|<|>|\|)', ' ', query)
             if 'tvshowtitle' in data:
-                url = self.search.format('8', urllib.quote(query))
+                url = self.search.format('8', quote(query))
             else:
-                url = self.search.format('4', urllib.quote(query))
+                url = self.search.format('4', quote(query))
 
             self.hostDict = hostDict + hostprDict
             headers = {'User-Agent': client.agent()}
@@ -103,7 +107,7 @@ class source:
             seeders = re.search(r'<seeders>([\d]+)</seeders>', r).groups()[0]
             _hash = re.search(r'<info_hash>([a-zA-Z0-9]+)</info_hash>', r).groups()[0]
             name = re.search(r'<title>(.+?)</title>', r).groups()[0]
-            url = 'magnet:?xt=urn:btih:%s&dn=%s' % (_hash.upper(), urllib.quote_plus(name))
+            url = 'magnet:?xt=urn:btih:%s&dn=%s' % (_hash.upper(), quote_plus(name))
             url = url.split('&tr')[0]
             t = name.split(self.hdlr)[0]
 
@@ -119,7 +123,7 @@ class source:
                 dsize = float(size) / div
                 isize = '%.2f GB' % dsize
             except BaseException:
-                dsize, isize = 0, ''
+                dsize, isize = 0.0, ''
 
             info.insert(0, isize)
 
@@ -127,7 +131,7 @@ class source:
 
             if cleantitle.get(re.sub('(|)', '', t)) == cleantitle.get(self.title):
                 if y == self.hdlr:
-                    self._sources.append({'source': 'Torrent', 'quality': quality, 'language': 'en', 'url': url, 'info': info, 'direct': False, 'debridonly': True, 'size': dsize})
+                    self._sources.append({'source': 'Torrent', 'quality': quality, 'language': 'en', 'url': url, 'info': info, 'direct': False, 'debridonly': True, 'size': dsize, 'name': name})
 
         except BaseException:
             pass

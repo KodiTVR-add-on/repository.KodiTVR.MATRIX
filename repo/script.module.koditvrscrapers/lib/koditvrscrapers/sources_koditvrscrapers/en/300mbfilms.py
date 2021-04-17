@@ -1,38 +1,40 @@
 # -*- coding: utf-8 -*-
-'''
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
+#######################################################################
+# ----------------------------------------------------------------------------
+# "THE BEER-WARE LICENSE" (Revision 42):
+# As long as you retain this notice you can do whatever you want with
+# this stuff. If we meet some day, and you think this stuff is worth it,
+# you can buy me a beer in return. - Muad'Dib
+# ----------------------------------------------------------------------------
+#######################################################################
 
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
+# - Converted to py3/2 for KodiTVR
 
-    You should have received a copy of the GNU General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-'''
 
 import re
-import urllib
-import urlparse
 
-from koditvrscrapers.modules import cleantitle, client, source_utils
+try: from urlparse import parse_qs, urljoin
+except ImportError: from urllib.parse import parse_qs, urljoin
+try: from urllib import urlencode, quote_plus
+except ImportError: from urllib.parse import urlencode, quote_plus
+
+from six import ensure_text
+
+from koditvrscrapers.modules import cleantitle, client, debrid, source_utils
 
 
 class source:
     def __init__(self):
         self.priority = 1
         self.language = ['en']
-        self.domains = ['300mbfilms.co']
-        self.base_link = 'https://www.300mbfilms.co'
+        self.domains = ['300mbfilms.co', '300mbfilms.ws']
+        self.base_link = 'https://www.300mbfilms.ws'
         self.search_link = '/?s=%s'
 
     def movie(self, imdb, title, localtitle, aliases, year):
         try:
             url = {'imdb': imdb, 'title': title, 'year': year}
-            url = urllib.urlencode(url)
+            url = urlencode(url)
             return url
         except Exception:
             return
@@ -40,7 +42,7 @@ class source:
     def tvshow(self, imdb, tvdb, tvshowtitle, localtvshowtitle, aliases, year):
         try:
             url = {'imdb': imdb, 'tvdb': tvdb, 'tvshowtitle': tvshowtitle, 'year': year}
-            url = urllib.urlencode(url)
+            url = urlencode(url)
             return url
         except Exception:
             return
@@ -50,22 +52,24 @@ class source:
             if url is None:
                 return
 
-            url = urlparse.parse_qs(url)
+            url = parse_qs(url)
             url = dict([(i, url[i][0]) if url[i] else (i, '') for i in url])
             url['title'], url['premiered'], url['season'], url['episode'] = title, premiered, season, episode
-            url = urllib.urlencode(url)
+            url = urlencode(url)
             return url
         except Exception:
             return
 
     def sources(self, url, hostDict, hostprDict):
+        sources = []
         try:
-            sources = []
+            if debrid.status() is False:
+                return sources
 
             if url is None:
                 return sources
 
-            data = urlparse.parse_qs(url)
+            data = parse_qs(url)
             data = dict([(i, data[i][0]) if data[i] else (i, '') for i in data])
 
             title = data['tvshowtitle'] if 'tvshowtitle' in data else data['title']
@@ -80,8 +84,8 @@ class source:
                 data['year'])
             query = re.sub('(\\\|/| -|:|;|\*|\?|"|\'|<|>|\|)', ' ', query)
 
-            url = self.search_link % urllib.quote_plus(query)
-            url = urlparse.urljoin(self.base_link, url)
+            url = self.search_link % quote_plus(query)
+            url = urljoin(self.base_link, url)
 
             r = client.request(url)
 
@@ -97,17 +101,17 @@ class source:
                     if not cleantitle.get(title) in cleantitle.get(name):
                         continue
                     name = client.replaceHTMLCodes(name)
+                    try: _name = name.lower().replace('permalink to', '')
+                    except: _name = name
 
                     quality, info = source_utils.get_release_quality(name, link)
 
                     try:
                         size = re.findall('((?:\d+\.\d+|\d+\,\d+|\d+)\s*(?:GB|GiB|MB|MiB))', name)[-1]
-                        div = 1 if size.endswith(('GB', 'GiB')) else 1024
-                        size = float(re.sub('[^0-9|/.|/,]', '', size)) / div
-                        size = '%.2f GB' % size
-                        info.insert(0, size)
+                        dsize, isize = source_utils._size(size)
                     except Exception:
-                        pass
+                        dsize, isize = 0.0, ''
+                    info.insert(0, isize)
 
                     info = ' | '.join(info)
 
@@ -123,15 +127,17 @@ class source:
                 if any(x in item[0] for x in ['.rar', '.zip', '.iso']):
                     continue
                 url = client.replaceHTMLCodes(item[0])
-                url = url.encode('utf-8')
+                #url = url.encode('utf-8')
+                url = ensure_text(url)
 
                 valid, host = source_utils.is_host_valid(url, hostDict)
                 if not valid:
                     continue
                 host = client.replaceHTMLCodes(host)
-                host = host.encode('utf-8')
+                #host = host.encode('utf-8')
+                host = ensure_text(host)
 
-                sources.append({'source': host, 'quality': item[1], 'language': 'en', 'url': url, 'info': item[2], 'direct': False, 'debridonly': False})
+                sources.append({'source': host, 'quality': item[1], 'language': 'en', 'url': url, 'info': item[2], 'direct': False, 'debridonly': True, 'size': dsize, 'name': _name})
             return sources
         except Exception:
             return sources

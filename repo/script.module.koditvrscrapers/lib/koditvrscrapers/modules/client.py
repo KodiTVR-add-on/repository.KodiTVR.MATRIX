@@ -1,6 +1,9 @@
 # -*- coding: utf-8 -*-
 
-'''
+"""
+    Exodus Add-on
+    ///Updated for KodiTVR///
+
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
@@ -13,18 +16,17 @@
 
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
-'''
+"""
 
 from __future__ import absolute_import, division, print_function
 
-import re, sys, gzip, time, random, base64, traceback#, StringIO, urllib, urllib2, urlparse, HTMLParser, cookielib
+import re, sys, gzip, time, random, base64
 
 import simplejson as json
 
-from koditvrscrapers.modules import cache, dom_parser, log_utils, control#, utils
+from koditvrscrapers.modules import cache, control, dom_parser, log_utils
 
 import six
-#from six.moves import urllib_parse, urllib_request, urllib_error, html_parser, http_cookiejar
 from six.moves import range as x_range
 
 # Py2
@@ -65,15 +67,15 @@ elif six.PY3:
 
 
 
-def request(url, close=True, redirect=True, error=False, proxy=None, post=None, headers=None, mobile=False, limit=None,
-            referer=None, cookie=None, output='', timeout='30', username=None, password=None, verify=True, as_bytes=False):
+def request(url, close=True, redirect=True, error=False, verify=True, proxy=None, post=None, headers=None, mobile=False, XHR=False,
+            limit=None, referer=None,cookie=None, compression=False, output='', timeout='30', username=None, password=None, as_bytes=False):
 
     """
     Re-adapted from Twilight0's tulip module => https://github.com/Twilight0/script.module.tulip
     """
 
     try:
-        url = url.decode('utf-8')
+        url = six.ensure_text(url, errors='ignore')
     except Exception:
         pass
 
@@ -96,8 +98,14 @@ def request(url, close=True, redirect=True, error=False, proxy=None, post=None, 
         if proxy is not None:
 
             if username is not None and password is not None:
-                passmgr = urllib2.ProxyBasicAuthHandler()
+
+                if six.PY2:
+                    passmgr = urllib2.ProxyBasicAuthHandler()
+                else:
+                    passmgr = urllib2.HTTPPasswordMgr()
+
                 passmgr.add_password(None, uri=url, user=username, passwd=password)
+
                 handlers += [
                     urllib2.ProxyHandler({'http': '{0}'.format(proxy)}), urllib2.HTTPHandler,
                     urllib2.ProxyBasicAuthHandler(passmgr)
@@ -179,10 +187,20 @@ def request(url, close=True, redirect=True, error=False, proxy=None, post=None, 
         if not 'Accept-Language' in headers:
             headers['Accept-Language'] = 'en-US'
 
+        if 'X-Requested-With' in headers:
+            pass
+        elif XHR is True:
+            headers['X-Requested-With'] = 'XMLHttpRequest'
+
         if 'Cookie' in headers:
             pass
         elif cookie is not None:
             headers['Cookie'] = cookie
+
+        if 'Accept-Encoding' in headers:
+            pass
+        elif compression and limit is None:
+            headers['Accept-Encoding'] = 'gzip'
 
         if redirect is False:
 
@@ -220,12 +238,22 @@ def request(url, close=True, redirect=True, error=False, proxy=None, post=None, 
             if response.code == 503:
 
                 if 'cf-browser-verification' in response.read(5242880):
+                    from koditvrscrapers.modules import cfscrape
 
                     netloc = '{0}://{1}'.format(urlparse(url).scheme, urlparse(url).netloc)
 
-                    cf = cache.get(Cfcookie.get, 168, netloc, headers['User-Agent'], timeout)
+                    ua = headers['User-Agent']
 
-                    headers['Cookie'] = cf
+                    #cf = cache.get(Cfcookie.get, 168, netloc, ua, timeout)
+                    try:
+                        cf = cache.get(cfscrape.get_cookie_string, 1, netloc, ua)[0]
+                    except BaseException:
+                        try:
+                            cf = cfscrape.get_cookie_string(url, ua)[0]
+                        except BaseException:
+                            cf = None
+                    finally:
+                        headers['Cookie'] = cf
 
                     req = urllib2.Request(url, data=post, headers=headers)
 
@@ -286,7 +314,7 @@ def request(url, close=True, redirect=True, error=False, proxy=None, post=None, 
 
             if not as_bytes:
 
-                result = control.six_decode(result)
+                result = six.ensure_text(result, errors='ignore')
 
             return result, headers, content, cookie
 
@@ -338,16 +366,14 @@ def request(url, close=True, redirect=True, error=False, proxy=None, post=None, 
             response.close()
 
         if not as_bytes:
-            result = control.six_decode(result)
+
+            result = six.ensure_text(result, errors='ignore')
 
         return result
 
-    except Exception as reason:
+    except:
 
-        _, __, tb = sys.exc_info()
-
-        print(traceback.print_tb(tb))
-        log_utils.log('Client module failed, reason of failure: ' + repr(reason))
+        log_utils.log('Client request failed on url: ' + url + ' | Reason', 1)
 
         return
 
@@ -429,6 +455,9 @@ def replaceHTMLCodes(txt):
     txt = txt.replace("&gt;", ">")
     txt = txt.replace("&#38;", "&")
     txt = txt.replace("&nbsp;", "")
+    txt = txt.replace('&#8230;', '...')
+    txt = txt.replace('&#8217;', '\'')
+    txt = txt.replace('&#8211;', '-')
     txt = txt.strip()
     return txt
 
@@ -508,7 +537,7 @@ def agent():
             "Mozilla/5.0 (Linux; Android 9; AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.149 Mobile Safari/537.36 OPR/55.2.2719"])
 
 
-class cfcookie:
+class Cfcookie:
     def __init__(self):
         self.cookie = None
 
@@ -520,11 +549,10 @@ class cfcookie:
             self.cookie = None
             self._get_cookie(netloc, ua, timeout)
             if self.cookie is None:
-                log_utils.log('%s returned an error. Could not collect tokens.' % netloc, log_utils.LOGDEBUG)
+                log_utils.log('%s returned an error. Could not collect tokens.' % netloc)
             return self.cookie
         except Exception as e:
-            log_utils.log('%s returned an error. Could not collect tokens - Error: %s.' % (netloc, str(e)),
-                          log_utils.LOGDEBUG)
+            log_utils.log('%s returned an error. Could not collect tokens - Error: %s.' % (netloc, str(e)))
             return self.cookie
 
     def _get_cookie(self, netloc, ua, timeout):
@@ -680,7 +708,7 @@ def _get_keyboard(default="", heading="", hidden=False):
     keyboard = control.keyboard(default, heading, hidden)
     keyboard.doModal()
     if keyboard.isConfirmed():
-        return unicode(keyboard.getText(), "utf-8")
+        return six.ensure_text(keyboard.getText())
     return default
 
 
