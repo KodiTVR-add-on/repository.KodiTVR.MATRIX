@@ -1,5 +1,0 @@
-- [COLORred]KodiTVR[/COLOR] v2.0.9 [COLOR lime]-compatible with Kodi18.x - 19.x version[/COLOR] 
-- * Working On Kodi 19.x version Matrix *
-
-[B][COLOR gold]v2.0.0[/COLOR][/B]
-- Initial Release
