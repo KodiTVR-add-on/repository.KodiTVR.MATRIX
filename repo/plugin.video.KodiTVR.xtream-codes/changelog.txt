@@ -1,0 +1,5 @@
+* KodiTVR version 1.0.0 (2021-04-03)
+- switch to python3 to make it work on Kodi 19x Matrix.
+
+# FUCK YOU GRUPETA...
+- ACEITA QUE DÓI MENOS!
