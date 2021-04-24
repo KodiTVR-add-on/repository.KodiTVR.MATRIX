@@ -11,8 +11,8 @@ FANART        = REAL_SETTINGS.getAddonInfo('fanart')
 
 YOUTUBE_CHANNEL_ID1 = " ● "
 YOUTUBE_CHANNEL_ID2 = "UFC"
-YOUTUBE_CHANNEL_ID3 = " ● "
-
+YOUTUBE_CHANNEL_ID3 = "UCvgfXK4nTYKudb0rFR6noLA"
+YOUTUBE_CHANNEL_ID4 = " ● "
 
 def addDir(title, url, thumbnail,fanart,folder):
     liz=xbmcgui.ListItem(title)
@@ -26,6 +26,7 @@ if __name__ == '__main__':
 
    addDir(title=" [COLOR green]●[/COLOR]",url="plugin://plugin.video.youtube/playlist/"+YOUTUBE_CHANNEL_ID1+"/",thumbnail="https://i.imgur.com/kP0g813.png",fanart="https://i.imgur.com/NGUGZsw.jpg",folder=True)
    addDir(title=" [COLOR cyan]UFC - Ultimate Fighting Championship[/COLOR]",url="plugin://plugin.video.youtube/user/"+YOUTUBE_CHANNEL_ID2+"/",thumbnail="https://yt3.ggpht.com/ytc/AAUvwnjhNX3BOhiTyK6N2Izk20aSdsSyoCr_0QJBC1_Y7y4=s88-c-k-c0x00ffffff-no-rj",fanart="https://i.imgur.com/NGUGZsw.jpg",folder=True )
-   addDir(title=" [COLOR green]●[/COLOR]",url="plugin://plugin.video.youtube/channel/"+YOUTUBE_CHANNEL_ID3+"/",thumbnail="https://i.imgur.com/kP0g813.png",fanart="https://i.imgur.com/NGUGZsw.jpg",folder=True )
+   addDir(title=" [COLOR cyan]UFC[/COLOR]",url="plugin://plugin.video.youtube/channel/"+YOUTUBE_CHANNEL_ID3+"/",thumbnail="https://yt3.ggpht.com/-QeD1gcM_f7k/AAAAAAAAAAI/AAAAAAAAAAA/RrU6oF2FBU0/s288-mo-c-c0xffffffff-rj-k-no/photo.jpg",fanart="https://i.imgur.com/NGUGZsw.jpg",folder=True )
+   addDir(title=" [COLOR green]●[/COLOR]",url="plugin://plugin.video.youtube/channel/"+YOUTUBE_CHANNEL_ID4+"/",thumbnail="https://i.imgur.com/kP0g813.png",fanart="https://i.imgur.com/NGUGZsw.jpg",folder=True )
    					   
    xbmcplugin.endOfDirectory(int(sys.argv[1]),cacheToDisc=True)
