@@ -11,8 +11,8 @@ FANART        = REAL_SETTINGS.getAddonInfo('fanart')
 
 YOUTUBE_CHANNEL_ID1 = " ● "
 YOUTUBE_CHANNEL_ID2 = "UCDitdIjOjS9Myza9I21IqzQ"
-YOUTUBE_CHANNEL_ID3 = " ● "
-
+YOUTUBE_CHANNEL_ID3 = "ATP"
+YOUTUBE_CHANNEL_ID4 = " ● "
 
 def addDir(title, url, thumbnail,fanart,folder):
     liz=xbmcgui.ListItem(title)
@@ -26,6 +26,7 @@ if __name__ == '__main__':
 
    addDir(title=" [COLOR green]●[/COLOR]",url="plugin://plugin.video.youtube/playlist/"+YOUTUBE_CHANNEL_ID1+"/",thumbnail="https://i.imgur.com/rZupnbr.png",fanart="https://i.imgur.com/P8uq0XV.jpg",folder=True)
    addDir(title=" [COLOR cyan]Tennis Channel[/COLOR]",url="plugin://plugin.video.youtube/channel/"+YOUTUBE_CHANNEL_ID2+"/",thumbnail="https://yt3.ggpht.com/ytc/AAUvwngSc7vil3VJ84TufDt21EcHzNiUA0xfhrOgq7Sksg=s88-c-k-c0x00ffffff-no-rj",fanart="https://i.imgur.com/P8uq0XV.jpg",folder=True )
-   addDir(title=" [COLOR green]●[/COLOR]",url="plugin://plugin.video.youtube/user/"+YOUTUBE_CHANNEL_ID3+"/",thumbnail="https://i.imgur.com/rZupnbr.png",fanart="https://i.imgur.com/P8uq0XV.jpg",folder=True )
+   addDir(title=" [COLOR green]TENNIS[/COLOR]",url="plugin://plugin.video.youtube/user/"+YOUTUBE_CHANNEL_ID3+"/",thumbnail="https://yt3.ggpht.com/-4gwsDPowJJs/AAAAAAAAAAI/AAAAAAAAAAA/u5ZcdysON7k/s288-mo-c-c0xffffffff-rj-k-no/photo.jpg",fanart="https://i.imgur.com/P8uq0XV.jpg",folder=True )
+   addDir(title=" [COLOR green]●[/COLOR]",url="plugin://plugin.video.youtube/user/"+YOUTUBE_CHANNEL_ID4+"/",thumbnail="https://i.imgur.com/rZupnbr.png",fanart="https://i.imgur.com/P8uq0XV.jpg",folder=True )
    					   
    xbmcplugin.endOfDirectory(int(sys.argv[1]),cacheToDisc=True)
