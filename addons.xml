@@ -1038,6 +1038,27 @@ You can clone the project and host it in your own server.
  </extension>
 </addon>
 
+<addon id="plugin.video.KodiTVR.WWE" name="[COLOR red]KodiTVR[/COLOR] [COLOR blue]WRESTLING[/COLOR]" version="1.0.0+matrix" provider-name="KodiTVR">
+  <requires>
+    <import addon="xbmc.python" version="3.0.0"/>
+    <import addon="plugin.video.youtube"/>
+  </requires>
+ <extension point="xbmc.python.pluginsource" library="default.py">
+    <provides>video</provides>
+ </extension>
+ <extension point="xbmc.addon.metadata">
+    <summary lang="en">ADD-ON - KodiTVR [COLOR lime]WRESTLING[/COLOR] MATRIX</summary>
+    <description lang="en">[COLOR yellow]-For Kodi 19.x version[/COLOR] [COLOR blue]ADD-ON[/COLOR]
+	[COLOR lime]MATRIX[/COLOR]  by KodiTVR [COLOR red]WWE[/COLOR] Stream WRESTLING.</description>
+    <platform>all</platform>
+    <website>https://koditvr.wixsite.com/website</website>
+    <assets>
+    <icon>icon.png</icon>
+	<fanart>fanart.jpg</fanart>
+    </assets>
+ </extension>
+</addon>
+
 <addon id="plugin.video.KodiTVR.xtream-codes"
        name="KodiTVR [COLORgold]Xtream[/COLOR][COLORblack]-[/COLOR][COLORgold]IPTV[/COLOR]"
        version="1.0.0+matrix"
