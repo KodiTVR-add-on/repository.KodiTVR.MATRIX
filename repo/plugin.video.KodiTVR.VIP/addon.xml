@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<addon id="plugin.video.KodiTVR.VIP" name="[COLORgold]KodiTVR [COLORsilver]IPTV [COLORred]VIP[/COLOR]" version="1.0.0+matrix" provider-name="KodiTVR">
+  <requires>
+    	<trycatch>
+            <try>
+                <import addon="xbmc.python" version="3.0.0"/>
+            </try>
+
+            <catch>
+                <import addon="xbmc.python" version="2.24.0"/>
+            </catch>
+        </trycatch>
+
+    <import addon="pvr.iptvsimple"/>
+  </requires>
+ <extension point="xbmc.python.pluginsource" library="KodiTVR.py">
+    <provides>video</provides>
+ </extension>
+ <extension point="xbmc.addon.metadata">
+    <summary lang="en">KodiTVR IPTV VIP</summary>
+    <description lang="en">ADD-ON KodiTVR IPTV VIP</description>
+    <platform>all</platform>
+    <twitter>https://twitter.com/KodiTVR</twitter>
+    <website>https://koditvr.wixsite.com/website</website>
+    <assets>
+    <icon>icon.jpg</icon>
+	<fanart>fanart.png</fanart>
+    </assets>
+ </extension>
+</addon>

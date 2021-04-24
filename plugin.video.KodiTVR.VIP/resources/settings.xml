@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<settings>
+<category label="KodiTVR IPTV VIP Login">
+	<setting label="[COLOR blue][B]Credenciais para Acesso IPTV VIP[/B][/COLOR]" type="lsep" /> 
+	<setting default="" label="[COLOR=lime]Username[/COLOR]" type="text" id="login" enable="!eq(-2,false)"/>
+	<setting default="" label="[COLOR=lime]Password[/COLOR]" type="text" id="password" enable="!eq(-2,false)" option="hidden"/>
+	</category>
+</settings>
