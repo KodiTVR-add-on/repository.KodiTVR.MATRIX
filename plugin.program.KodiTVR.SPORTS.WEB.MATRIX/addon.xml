@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<addon id="plugin.program.KodiTVR.SPORTS.WEB.MATRIX"
+  name="[COLORlime]KodiTVR [COLORred]SPORTS [COLORcyan]WEB [COLORgold]MATRIX[/COLOR]"
+  version="0.0.1+matrix"
+  provider-name="KodiTVR">
+  <requires>
+    <import addon="xbmc.python" version="3.0.0"/>
+  </requires>
+  <extension point="xbmc.python.pluginsource" library="KodiTVR.py">
+    <provides>executable</provides>
+  </extension>
+  <extension point="xbmc.addon.metadata">
+    <platform>all</platform>
+    <summary lang="en">[COLORlime]KodiTVR [COLORred]SPORTS [COLORcyan]WEB [COLORgold]MATRIX[/COLOR]</summary>
+    <description lang="en">[COLORlime]KodiTVR [COLORred]SPORTS [COLORcyan]WEB [COLORgold]MATRIX[/COLOR]</description>
+	<disclaimer>[COLORlime]KodiTVR [COLORred]SPORTS [COLORcyan]WEB [COLORgold]MATRIX[/COLOR]</disclaimer>
+	<assets>
+	<icon>icon.png</icon>
+    </assets>
+  </extension>
+</addon>

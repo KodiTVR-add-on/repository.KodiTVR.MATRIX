@@ -783,6 +783,27 @@ You can clone the project and host it in your own server.
     </extension>
 </addon>
 
+<addon id="plugin.program.KodiTVR.SPORTS.WEB.MATRIX"
+  name="[COLORlime]KodiTVR [COLORred]SPORTS [COLORcyan]WEB [COLORgold]MATRIX[/COLOR]"
+  version="0.0.1+matrix"
+  provider-name="KodiTVR">
+  <requires>
+    <import addon="xbmc.python" version="3.0.0"/>
+  </requires>
+  <extension point="xbmc.python.pluginsource" library="KodiTVR.py">
+    <provides>executable</provides>
+  </extension>
+  <extension point="xbmc.addon.metadata">
+    <platform>all</platform>
+    <summary lang="en">[COLORlime]KodiTVR [COLORred]SPORTS [COLORcyan]WEB [COLORgold]MATRIX[/COLOR]</summary>
+    <description lang="en">[COLORlime]KodiTVR [COLORred]SPORTS [COLORcyan]WEB [COLORgold]MATRIX[/COLOR]</description>
+	<disclaimer>[COLORlime]KodiTVR [COLORred]SPORTS [COLORcyan]WEB [COLORgold]MATRIX[/COLOR]</disclaimer>
+	<assets>
+	<icon>icon.png</icon>
+    </assets>
+  </extension>
+</addon>
+
 <addon id="plugin.program.reddit_navigator" name="Reddit Navigator" version="1.1.0" provider-name="Twilight0">
     <requires>
         <import addon="xbmc.addon" version="16.1.000"/>
